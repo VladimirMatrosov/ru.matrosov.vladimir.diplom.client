@@ -52,12 +52,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public void actionSignIn(View view) {
         Intent intObj = new Intent(this, MainActivity.class);
+
         EditText editTextEmail = findViewById(R.id.email_sign_in);
         String emailInput = editTextEmail.getText().toString();
         intObj.putExtra(EMAIL, emailInput);
+
         EditText editTextPassword = findViewById(R.id.password_sign_in);
         String passwordInput = editTextPassword.getText().toString();
         intObj.putExtra(PASSWORD, passwordInput);
+
         startActivity(intObj);
     }
 

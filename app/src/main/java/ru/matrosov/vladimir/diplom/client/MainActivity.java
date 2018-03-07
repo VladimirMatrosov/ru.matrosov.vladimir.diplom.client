@@ -25,12 +25,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* //Обрабатываем введенный email и выводим на экран
-        Intent intObj = getIntent();
-        String emailOutput = intObj.getStringExtra(EMAIL);
-        TextView textViewEmailOutput = findViewById(R.id.textViewEmailOutput);
-        textViewEmailOutput.setText(emailOutput);*/
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -51,6 +45,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Intent intObj = getIntent();
+        String emailOutput = intObj.getStringExtra(EMAIL);
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        TextView textViewEmailOutput = headerLayout.findViewById(R.id.textViewEmailOutput);
+        textViewEmailOutput.setText(emailOutput);
+
+        View view = navigationView.getHeaderView(R.layout.nav_header_main);
     }
 
     @Override
@@ -91,22 +93,20 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_users) {
+            setContentView(R.layout.users_main);
+        } else if (id == R.id.nav_chatrooms) {
+            setContentView(R.layout.chatrooms_main);
+        } else if (id == R.id.nav_settings) {
+            setContentView(R.layout.settings_main);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void actionBack(View view) {
+        this.recreate();
     }
 }

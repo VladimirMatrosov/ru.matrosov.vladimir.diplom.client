@@ -28,15 +28,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -47,12 +38,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intObj = getIntent();
+        String userOutput = intObj.getStringExtra("User");
         String emailOutput = intObj.getStringExtra(EMAIL);
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         TextView textViewEmailOutput = headerLayout.findViewById(R.id.textViewEmailOutput);
-        textViewEmailOutput.setText(emailOutput);
-
-        View view = navigationView.getHeaderView(R.layout.nav_header_main);
+        textViewEmailOutput.setText(userOutput);
     }
 
     @Override
@@ -99,9 +89,12 @@ public class MainActivity extends AppCompatActivity
             setContentView(R.layout.chatrooms_main);
         } else if (id == R.id.nav_settings) {
             setContentView(R.layout.settings_main);
+        } else if (id == R.id.nav_exit) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
-       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         // drawer.closeDrawer(GravityCompat.START);
         return true;
     }

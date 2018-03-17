@@ -30,8 +30,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import data.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -51,17 +63,33 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void actionSignIn(View view) {
-        Intent intObj = new Intent(this, MainActivity.class);
 
-        EditText editTextEmail = findViewById(R.id.email_sign_in);
-        String emailInput = editTextEmail.getText().toString();
-        intObj.putExtra(EMAIL, emailInput);
+        ActionAutorization actionAutorization = new ActionAutorization();
+        String res = actionAutorization.doInBackground("192.168.43.240:8080/autorization");
+        Gson gson = new Gson();
+        gson.toJson(res);
 
-        EditText editTextPassword = findViewById(R.id.password_sign_in);
-        String passwordInput = editTextPassword.getText().toString();
-        intObj.putExtra(PASSWORD, passwordInput);
+        AutorizationResponse autorizationResponse = gson.fromJson(res, AutorizationResponse.class);
+        String response = "";
+        if (autorizationResponse.getStatus() == 0) {
+            Intent intObj = new Intent(this, MainActivity.class);
 
-        startActivity(intObj);
+            intObj.putExtra("User", autorizationResponse.getUser().toString());
+
+            EditText editTextEmail = findViewById(R.id.email_sign_in);
+            String emailInput = editTextEmail.getText().toString();
+            intObj.putExtra(EMAIL, emailInput);
+
+            EditText editTextPassword = findViewById(R.id.password_sign_in);
+            String passwordInput = editTextPassword.getText().toString();
+            intObj.putExtra(PASSWORD, passwordInput);
+
+            startActivity(intObj);
+        } else if (autorizationResponse.getStatus() == -2){
+
+        }
+        else if (autorizationResponse.getStatus() == -1)
+            response = "@string/error_incorrect_email";
     }
 
     public void actionRegistration(View view) {
@@ -71,6 +99,65 @@ public class LoginActivity extends AppCompatActivity {
 
     public void actionRegistrationForm(View view) {
         setContentView(R.layout.registration_login);
+    }
+
+    public class ActionAutorization extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... path) {
+            String content;
+            EditText editTextEmail = findViewById(R.id.email_sign_in);
+            EditText editTextPassword = findViewById(R.id.password_sign_in);
+
+            try {
+                content = getContent(path[0], editTextEmail.getText().toString(), editTextPassword.getText().toString());
+            } catch (IOException ex) {
+                content = ex.getMessage();
+            }
+
+            return content;
+
+        }
+
+        private String getContent(String s, String email, String password) throws IOException {
+            URL url = new URL(s);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("email", email);
+            connection.setRequestProperty("password", password);
+            connection.connect();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String str = reader.toString();
+            return str;
+        }
+
+    }
+
+    public class AutorizationResponse {
+        int status;
+        User user;
+
+        public AutorizationResponse(int status, User user) {
+            this.status = status;
+            this.user = user;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
     }
 }
 

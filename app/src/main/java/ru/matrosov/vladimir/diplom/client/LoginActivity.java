@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,6 +53,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity {
 
+    public final static String TAG = "LoginActivity";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
 
@@ -64,32 +66,38 @@ public class LoginActivity extends AppCompatActivity {
 
     public void actionSignIn(View view) {
 
-        ActionAutorization actionAutorization = new ActionAutorization();
-        String res = actionAutorization.doInBackground("192.168.43.240:8080/autorization");
-        Gson gson = new Gson();
-        gson.toJson(res);
+        ActionAutorization actionAutorization = new ActionAutorization(){
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                Log.d(TAG, "actionSignIn: response: " + s);
+                Gson gson = new Gson();
+            }
+        };
+        AsyncTask asyncTask = actionAutorization.execute("http://192.168.43.240:8080/autorization");
 
-        AutorizationResponse autorizationResponse = gson.fromJson(res, AutorizationResponse.class);
-        String response = "";
-        if (autorizationResponse.getStatus() == 0) {
-            Intent intObj = new Intent(this, MainActivity.class);
 
-            intObj.putExtra("User", autorizationResponse.getUser().toString());
-
-            EditText editTextEmail = findViewById(R.id.email_sign_in);
-            String emailInput = editTextEmail.getText().toString();
-            intObj.putExtra(EMAIL, emailInput);
-
-            EditText editTextPassword = findViewById(R.id.password_sign_in);
-            String passwordInput = editTextPassword.getText().toString();
-            intObj.putExtra(PASSWORD, passwordInput);
-
-            startActivity(intObj);
-        } else if (autorizationResponse.getStatus() == -2){
-
-        }
-        else if (autorizationResponse.getStatus() == -1)
-            response = "@string/error_incorrect_email";
+      //  AutorizationResponse autorizationResponse = gson.fromJson(res, AutorizationResponse.class);
+//        String response = "";
+//        if (autorizationResponse.getStatus() == 0) {
+//            Intent intObj = new Intent(this, MainActivity.class);
+//
+//            intObj.putExtra("User", autorizationResponse.getUser().toString());
+//
+//            EditText editTextEmail = findViewById(R.id.email_sign_in);
+//            String emailInput = editTextEmail.getText().toString();
+//            intObj.putExtra(EMAIL, emailInput);
+//
+//            EditText editTextPassword = findViewById(R.id.password_sign_in);
+//            String passwordInput = editTextPassword.getText().toString();
+//            intObj.putExtra(PASSWORD, passwordInput);
+//
+//            startActivity(intObj);
+//        } else if (autorizationResponse.getStatus() == -2){
+//
+//        }
+//        else if (autorizationResponse.getStatus() == -1)
+//            response = "@string/error_incorrect_email";
     }
 
     public void actionRegistration(View view) {
@@ -123,13 +131,17 @@ public class LoginActivity extends AppCompatActivity {
             URL url = new URL(s);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("email", email);
-            connection.setRequestProperty("password", password);
+            connection.toString();
             connection.connect();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String str = reader.toString();
-            return str;
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = reader.readLine();
+            while (line != null && !line.isEmpty()){
+                stringBuilder.append(line);
+                line = reader.readLine();
+            }
+            return stringBuilder.toString();
         }
 
     }

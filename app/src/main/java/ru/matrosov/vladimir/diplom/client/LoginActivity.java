@@ -30,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -45,6 +46,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import data.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import ru.matrosov.vladimir.diplom.client.retrofit.AutorizationResponse;
+import ru.matrosov.vladimir.diplom.client.retrofit.ResponseSuccessCallback;
+import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -66,18 +73,17 @@ public class LoginActivity extends AppCompatActivity {
 
     public void actionSignIn(View view) {
 
-        ActionAutorization actionAutorization = new ActionAutorization(){
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                Log.d(TAG, "actionSignIn: response: " + s);
-                Gson gson = new Gson();
-            }
-        };
-        AsyncTask asyncTask = actionAutorization.execute("http://192.168.43.240:8080/autorization");
+        EditText editTextEmail = findViewById(R.id.email_sign_in);
+        EditText editTextPassword = findViewById(R.id.password_sign_in);
+
+        ServerConnection serverConnection = new ServerConnection("http://192.168.43.240:8080", this);
+        serverConnection.autorize(
+                editTextEmail.getText().toString(),
+                editTextPassword.getText().toString(),
+                this::onResponse);
 
 
-      //  AutorizationResponse autorizationResponse = gson.fromJson(res, AutorizationResponse.class);
+        //  AutorizationResponse autorizationResponse = gson.fromJson(res, AutorizationResponse.class);
 //        String response = "";
 //        if (autorizationResponse.getStatus() == 0) {
 //            Intent intObj = new Intent(this, MainActivity.class);
@@ -100,6 +106,10 @@ public class LoginActivity extends AppCompatActivity {
 //            response = "@string/error_incorrect_email";
     }
 
+    void onResponse(AutorizationResponse response) {
+        Toast.makeText(this, "User " + response.getUser() + " logged in!!", Toast.LENGTH_LONG).show();
+    }
+
     public void actionRegistration(View view) {
         Intent intObj = new Intent(this, MainActivity.class);
         startActivity(intObj);
@@ -107,69 +117,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void actionRegistrationForm(View view) {
         setContentView(R.layout.registration_login);
-    }
-
-    public class ActionAutorization extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... path) {
-            String content;
-            EditText editTextEmail = findViewById(R.id.email_sign_in);
-            EditText editTextPassword = findViewById(R.id.password_sign_in);
-
-            try {
-                content = getContent(path[0], editTextEmail.getText().toString(), editTextPassword.getText().toString());
-            } catch (IOException ex) {
-                content = ex.getMessage();
-            }
-
-            return content;
-
-        }
-
-        private String getContent(String s, String email, String password) throws IOException {
-            URL url = new URL(s);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.toString();
-            connection.connect();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = reader.readLine();
-            while (line != null && !line.isEmpty()){
-                stringBuilder.append(line);
-                line = reader.readLine();
-            }
-            return stringBuilder.toString();
-        }
-
-    }
-
-    public class AutorizationResponse {
-        int status;
-        User user;
-
-        public AutorizationResponse(int status, User user) {
-            this.status = status;
-            this.user = user;
-        }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
-        }
-
-        public User getUser() {
-            return user;
-        }
-
-        public void setUser(User user) {
-            this.user = user;
-        }
     }
 }
 

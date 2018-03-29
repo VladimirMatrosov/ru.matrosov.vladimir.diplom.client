@@ -8,11 +8,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.matrosov.vladimir.diplom.client.LoginActivity;
-
-/**
- * Created by Valeriy on 17.03.2018.
- */
 
 public class ServerConnection {
     private Retrofit retrofit;
@@ -41,6 +36,24 @@ public class ServerConnection {
             }
         });
     }
+
+    public void register(String firstname, String lastname, String email, String post,
+                         String password1, String password2, ResponseSuccessCallback<ServerResponse> callback){
+        Registration service = retrofit.create(Registration.class);
+        service.register(firstname, lastname, email, post, password1, password2).enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Toast.makeText(context, "Error on getting", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
 
 
 }

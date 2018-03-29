@@ -2,10 +2,6 @@ package ru.matrosov.vladimir.diplom.client.retrofit;
 
 import data.User;
 
-/**
- * Created by Valeriy on 17.03.2018.
- */
-
 public class AutorizationResponse {
     private final int status;
     private final User user;

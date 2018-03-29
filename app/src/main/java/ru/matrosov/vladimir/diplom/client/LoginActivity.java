@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -42,6 +45,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,6 +56,7 @@ import retrofit2.Response;
 import ru.matrosov.vladimir.diplom.client.retrofit.AutorizationResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ResponseSuccessCallback;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
+import ru.matrosov.vladimir.diplom.client.retrofit.ServerResponse;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -76,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText editTextEmail = findViewById(R.id.email_sign_in);
         EditText editTextPassword = findViewById(R.id.password_sign_in);
 
-        ServerConnection serverConnection = new ServerConnection("http://192.168.43.240:8080", this);
+        ServerConnection serverConnection = new ServerConnection("http://192.168.0.102:8080", this);
         serverConnection.autorize(
                 editTextEmail.getText().toString(),
                 editTextPassword.getText().toString(),
@@ -107,16 +112,35 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void onResponse(AutorizationResponse response) {
-        Toast.makeText(this, "User " + response.getUser() + " logged in!!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "User " + response.getUser() + " logged in!!" + "Status = " + response.getStatus(),
+                Toast.LENGTH_LONG).show();
     }
 
     public void actionRegistration(View view) {
+        EditText editTextEmail = findViewById(R.id.email_input_registration);
+        EditText editTextFirstName = findViewById(R.id.firstName_input_registration);
+        EditText editTextLastName = findViewById(R.id.lastName_input_registration);
+        EditText editTextPost = findViewById(R.id.post_input_registration);
+        EditText editTextPassword1 = findViewById(R.id.password1_input_registration);
+        EditText editTextPassword2 = findViewById(R.id.password2_input_registration);
+
+        ServerConnection serverConnection = new ServerConnection("http://192.168.0.102:8080", this);
+        serverConnection.register(editTextFirstName.getText().toString(), editTextLastName.getText().toString(),
+                editTextEmail.getText().toString(), editTextPost.getText().toString(),
+                editTextPassword1.getText().toString(), editTextPassword2.getText().toString(),
+                this::onResponse);
         Intent intObj = new Intent(this, MainActivity.class);
         startActivity(intObj);
+
+    }
+
+    void onResponse(ServerResponse response) {
+        Toast.makeText(this, "Response: " + response.toString(), Toast.LENGTH_LONG).show();
     }
 
     public void actionRegistrationForm(View view) {
         setContentView(R.layout.registration_login);
     }
+
 }
 

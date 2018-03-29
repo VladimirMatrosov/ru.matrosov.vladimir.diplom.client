@@ -2,8 +2,13 @@ package ru.matrosov.vladimir.diplom.client;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +49,12 @@ public class MainActivity extends AppCompatActivity
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         TextView textViewEmailOutput = headerLayout.findViewById(R.id.textViewEmailOutput);
         textViewEmailOutput.setText(userOutput);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        HomeFragment homeFragment = new HomeFragment();
+        fragmentTransaction.add(R.id.frame_main, homeFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -80,15 +92,22 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         int id = item.getItemId();
 
         if (id == R.id.nav_users) {
-            setContentView(R.layout.users_main);
+           UsersFragment usersFragment = new UsersFragment();
+           fragmentTransaction.replace(R.id.frame_main, usersFragment);
+           fragmentTransaction.commit();
         } else if (id == R.id.nav_chatrooms) {
-            setContentView(R.layout.chatrooms_main);
+            ChatroomsFragment chatroomsFragment = new ChatroomsFragment();
+            fragmentTransaction.replace(R.id.frame_main, chatroomsFragment);
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_settings) {
-            setContentView(R.layout.settings_main);
+           SettingsFragment settingsFragment = new SettingsFragment();
+           fragmentTransaction.replace(R.id.frame_main, settingsFragment);
+           fragmentTransaction.commit();
         } else if (id == R.id.nav_exit) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

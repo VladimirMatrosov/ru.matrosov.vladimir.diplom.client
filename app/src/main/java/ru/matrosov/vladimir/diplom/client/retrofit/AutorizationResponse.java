@@ -1,9 +1,12 @@
 package ru.matrosov.vladimir.diplom.client.retrofit;
 
+import com.google.gson.annotations.SerializedName;
+
 import data.User;
 
 public class AutorizationResponse {
     private final int status;
+    @SerializedName("responseObject")
     private final User user;
 
     public AutorizationResponse(int status, User user) {

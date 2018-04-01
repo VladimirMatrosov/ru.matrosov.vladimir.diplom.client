@@ -3,6 +3,9 @@ package ru.matrosov.vladimir.diplom.client.retrofit;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import data.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,16 +41,16 @@ public class ServerConnection {
     }
 
     public void register(String firstname, String lastname, String email, String post,
-                         String password1, String password2, ResponseSuccessCallback<ServerResponse> callback) {
+                         String password1, String password2, ResponseSuccessCallback<ServerResponse<User>> callback) {
         Registration service = retrofit.create(Registration.class);
-        service.register(firstname, lastname, email, post, password1, password2).enqueue(new Callback<ServerResponse>() {
+        service.register(firstname, lastname, email, post, password1, password2).enqueue(new Callback<ServerResponse<User>>() {
             @Override
-            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+            public void onResponse(Call<ServerResponse<User>> call, Response<ServerResponse<User>> response) {
                 callback.onResponse(response.body());
             }
 
             @Override
-            public void onFailure(Call<ServerResponse> call, Throwable t) {
+            public void onFailure(Call<ServerResponse<User>> call, Throwable t) {
                 Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
             }
         });

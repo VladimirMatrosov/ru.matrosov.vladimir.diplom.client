@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String LAST_NAME = "LastName";
     public static final String POST = "Post";
     public static final String USER_ID = "UserID";
+    public static final String server = "http://192.168.43.240:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText editTextEmail = findViewById(R.id.email_sign_in);
         EditText editTextPassword = findViewById(R.id.password_sign_in);
 
-        ServerConnection serverConnection = new ServerConnection("http://192.168.0.102:8080", this);
+        ServerConnection serverConnection = new ServerConnection(server, this);
         serverConnection.autorize(
                 editTextEmail.getText().toString(),
                 editTextPassword.getText().toString(),
@@ -123,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText editTextPassword1 = findViewById(R.id.password1_input_registration);
         EditText editTextPassword2 = findViewById(R.id.password2_input_registration);
 
-        ServerConnection serverConnection = new ServerConnection("http://192.168.0.102:8080", this);
+        ServerConnection serverConnection = new ServerConnection(server, this);
         serverConnection.register(editTextFirstName.getText().toString(), editTextLastName.getText().toString(),
                 editTextEmail.getText().toString(), editTextPost.getText().toString(),
                 editTextPassword1.getText().toString(), editTextPassword2.getText().toString(),

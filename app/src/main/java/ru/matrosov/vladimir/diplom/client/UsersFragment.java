@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -35,7 +36,7 @@ public class UsersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_users, container, false);
 
-        ServerConnection serverConnection = new ServerConnection("http://192.168.0.102:8080", this.getContext());
+        ServerConnection serverConnection = new ServerConnection(LoginActivity.server, this.getContext());
         serverConnection.showingUsers(this::onResponse);
         return view;
     }
@@ -68,6 +69,7 @@ public class UsersFragment extends Fragment {
             relativeLayout.addView(imageButton, imageButParam);
 
             scrollView.addView(relativeLayout);
+            ((FrameLayout)getView()).addView(scrollView);
 
             Toast.makeText(this.getContext(), "Response:" + response.toString(), Toast.LENGTH_LONG).show();
         } else {

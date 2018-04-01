@@ -68,6 +68,10 @@ public class LoginActivity extends AppCompatActivity {
     public final static String TAG = "LoginActivity";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
+    public static final String FIRST_NAME = "FirstName";
+    public static final String LAST_NAME = "LastName";
+    public static final String POST = "Post";
+    public static final String USER_ID = "UserID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,34 +90,29 @@ public class LoginActivity extends AppCompatActivity {
                 editTextEmail.getText().toString(),
                 editTextPassword.getText().toString(),
                 this::onResponse);
-
-
-        //  AutorizationResponse autorizationResponse = gson.fromJson(res, AutorizationResponse.class);
-//        String response = "";
-//        if (autorizationResponse.getStatus() == 0) {
-//            Intent intObj = new Intent(this, MainActivity.class);
-//
-//            intObj.putExtra("User", autorizationResponse.getUser().toString());
-//
-//            EditText editTextEmail = findViewById(R.id.email_sign_in);
-//            String emailInput = editTextEmail.getText().toString();
-//            intObj.putExtra(EMAIL, emailInput);
-//
-//            EditText editTextPassword = findViewById(R.id.password_sign_in);
-//            String passwordInput = editTextPassword.getText().toString();
-//            intObj.putExtra(PASSWORD, passwordInput);
-//
-//            startActivity(intObj);
-//        } else if (autorizationResponse.getStatus() == -2){
-//
-//        }
-//        else if (autorizationResponse.getStatus() == -1)
-//            response = "@string/error_incorrect_email";
     }
 
     void onResponse(AutorizationResponse response) {
-        Toast.makeText(this, "User " + response.getUser() + " logged in!!" + "Status = " + response.getStatus(),
-                Toast.LENGTH_LONG).show();
+        if (response.getStatus() == 0) {
+            Toast.makeText(this, "User " + response.getUser() + " logged in!!" + "Status = " + response.getStatus(),
+                    Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(this, MainActivity.class);
+//            intent.putExtra(EMAIL, response.getUser().getEmail());
+//            intent.putExtra(PASSWORD, response.getUser().getPassword());
+//            intent.putExtra(FIRST_NAME, response.getUser().getFirstName());
+//            intent.putExtra(LAST_NAME, response.getUser().getLastName());
+//            intent.putExtra(POST, response.getUser().getPost());
+//            intent.putExtra(USER_ID, response.getUser().getUserID());
+
+            startActivity(intent);
+        } else if (response.getStatus() == -2) {
+            Toast.makeText(this, "Набран неправильный пароль",
+                    Toast.LENGTH_LONG).show();
+        } else if (response.getStatus() == -1) {
+            Toast.makeText(this, "Пользователя с таким email нет",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     public void actionRegistration(View view) {
@@ -129,12 +128,31 @@ public class LoginActivity extends AppCompatActivity {
                 editTextEmail.getText().toString(), editTextPost.getText().toString(),
                 editTextPassword1.getText().toString(), editTextPassword2.getText().toString(),
                 this::onResponse);
-        Intent intObj = new Intent(this, MainActivity.class);
-        startActivity(intObj);
-
     }
 
-    void onResponse(ServerResponse response) {
+    void onResponse(ServerResponse<User> response) {
+        if (response.getStatus() == 0) {
+            Toast.makeText(this, "Response: " + response.toString(), Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(EMAIL, response.getResponseObj().getEmail());
+            intent.putExtra(PASSWORD, response.getResponseObj().getPassword());
+            intent.putExtra(FIRST_NAME, response.getResponseObj().getFirstName());
+            intent.putExtra(LAST_NAME, response.getResponseObj().getLastName());
+            intent.putExtra(POST, response.getResponseObj().getPost());
+            intent.putExtra(USER_ID, response.getResponseObj().getUserID());
+
+            startActivity(intent);
+        } else if (response.getStatus() == -2) {
+            Toast.makeText(this, "Набранные пароли не совпадают",
+                    Toast.LENGTH_LONG).show();
+        } else if (response.getStatus() == -1) {
+            Toast.makeText(this, "Пользователь с таким email уже существует",
+                    Toast.LENGTH_LONG).show();
+        } else if (response.getStatus() == -5){
+            Toast.makeText(this, "Не все поля для ввода заполнены",
+                    Toast.LENGTH_LONG).show();
+        }
         Toast.makeText(this, "Response: " + response.toString(), Toast.LENGTH_LONG).show();
     }
 

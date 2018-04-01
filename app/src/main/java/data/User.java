@@ -93,4 +93,9 @@ public class User {
                 ", messages=" + messages +
                 '}';
     }
+
+    public String write(){
+        return "Имя: " + firstName + '\'' + ", Фамилия: " + lastName + '\''
+                + ", email: " + email + '\'' + ", Должность: " + post;
+    }
 }

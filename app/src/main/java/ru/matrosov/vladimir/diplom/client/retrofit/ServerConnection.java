@@ -31,14 +31,14 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<AutorizationResponse> call, Throwable t) {
-                Toast.makeText(context, "Error on getting", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
 
             }
         });
     }
 
     public void register(String firstname, String lastname, String email, String post,
-                         String password1, String password2, ResponseSuccessCallback<ServerResponse> callback){
+                         String password1, String password2, ResponseSuccessCallback<ServerResponse> callback) {
         Registration service = retrofit.create(Registration.class);
         service.register(firstname, lastname, email, post, password1, password2).enqueue(new Callback<ServerResponse>() {
             @Override
@@ -48,12 +48,23 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
-                Toast.makeText(context, "Error on getting", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    public void showingUsers(ResponseSuccessCallback<ServerResponse> callback) {
+        ShowUsers service = retrofit.create(ShowUsers.class);
+        service.showingUsers().enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                callback.onResponse(response.body());
+            }
 
-
-
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }

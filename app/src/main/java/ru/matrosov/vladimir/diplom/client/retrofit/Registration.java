@@ -7,7 +7,7 @@ import retrofit2.http.Query;
 
 public interface Registration {
     @POST("/registration")
-    Call<ServerResponse<User>> register(@Query("firstname") String firstname, @Query("lastname") String lastname,
+    Call<RegistrationResponse> register(@Query("firstname") String firstname, @Query("lastname") String lastname,
                                         @Query("email") String email, @Query("post") String post,
                                         @Query("password1") String password1, @Query("password2") String password2);
 }

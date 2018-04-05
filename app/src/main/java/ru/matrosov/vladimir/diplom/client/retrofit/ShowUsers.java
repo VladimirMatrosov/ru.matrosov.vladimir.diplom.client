@@ -6,5 +6,5 @@ import retrofit2.http.POST;
 public interface ShowUsers {
 
     @POST("/showUsers")
-    Call<ServerResponse> showingUsers();
+    Call<ShowUsersResponse> showingUsers();
 }

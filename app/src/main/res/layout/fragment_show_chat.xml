@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ShowChatFragment">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewShowChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/new_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите сообщение"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/send_new_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Отправить сообщение" />
+
+        <Button
+            android:id="@+id/showUsersInChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Показать пользователей" />
+
+        <Button
+            android:id="@+id/addUserToChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Добавить пользователя" />
+
+
+    </LinearLayout>
+</ScrollView>

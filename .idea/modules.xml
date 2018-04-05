@@ -3,8 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Valeriy\ru.matrosov.vladimir.diplom.client\diplomclient.iml" filepath="C:\Users\Valeriy\ru.matrosov.vladimir.diplom.client\diplomclient.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ru.matrosov.vladimir.diplom.client.iml" filepath="$PROJECT_DIR$/ru.matrosov.vladimir.diplom.client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diplomclient.iml" filepath="$PROJECT_DIR$/diplomclient.iml" />
     </modules>
   </component>
 </project>

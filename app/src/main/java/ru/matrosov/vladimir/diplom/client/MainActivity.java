@@ -24,8 +24,6 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String EMAIL = "email";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +42,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intObj = getIntent();
-        String userOutput = intObj.getStringExtra("User");
-        String emailOutput = intObj.getStringExtra(EMAIL);
+        String emailOutput = intObj.getStringExtra(LoginActivity.EMAIL);
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         TextView textViewEmailOutput = headerLayout.findViewById(R.id.textViewEmailOutput);
-        textViewEmailOutput.setText(userOutput);
+        textViewEmailOutput.setText(emailOutput);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -118,7 +115,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void actionBack(View view) {
-        this.recreate();
-    }
 }

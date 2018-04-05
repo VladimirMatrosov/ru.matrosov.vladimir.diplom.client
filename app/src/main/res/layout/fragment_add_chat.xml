@@ -19,14 +19,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Введите название чата"
+                android:text="@string/input_name_chat"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/name_chat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Название чата"
+                android:hint="@string/name_chat"
                 android:maxLines="1"
                 android:singleLine="true" />
 
@@ -34,7 +34,7 @@
                 android:id="@+id/add_chat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Создать чат" />
+                android:text="@string/create_chat" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

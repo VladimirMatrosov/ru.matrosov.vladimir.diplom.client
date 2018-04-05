@@ -9,7 +9,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Добро пожаловать в систему Корпоративная сеть"/>
-
+        android:text="@string/hello_layout"/>
 
 </FrameLayout>

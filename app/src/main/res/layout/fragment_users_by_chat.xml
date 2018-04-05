@@ -20,7 +20,7 @@
             android:id="@+id/return_chatroom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Вернуться в чат"/>
+            android:text="@string/return_chat"/>
 
     </LinearLayout>
 </ScrollView>

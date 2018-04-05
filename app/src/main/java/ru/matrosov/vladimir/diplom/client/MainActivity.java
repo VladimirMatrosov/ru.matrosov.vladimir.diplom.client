@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import static constants.IntentParameters.EMAIL;
+import static constants.IntentParameters.FIRST_NAME;
+import static constants.IntentParameters.LAST_NAME;
 
 
 public class MainActivity extends AppCompatActivity
@@ -45,9 +47,15 @@ public class MainActivity extends AppCompatActivity
 
         Intent intObj = getIntent();
         String emailOutput = intObj.getStringExtra(EMAIL);
+        String firstNameOutput = intObj.getStringExtra(FIRST_NAME);
+        String lastNameOutput = intObj.getStringExtra(LAST_NAME);
+
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         TextView textViewEmailOutput = headerLayout.findViewById(R.id.textViewEmailOutput);
         textViewEmailOutput.setText(emailOutput);
+
+        TextView textViewNameUser = headerLayout.findViewById(R.id.textViewNameUser);
+        textViewNameUser.setText(firstNameOutput + " " + lastNameOutput);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

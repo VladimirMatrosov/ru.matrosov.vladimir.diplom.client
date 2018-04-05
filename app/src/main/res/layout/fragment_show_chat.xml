@@ -19,7 +19,7 @@
             android:id="@+id/new_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Введите сообщение"
+            android:hint="@string/input_message"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -27,25 +27,25 @@
             android:id="@+id/send_new_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Отправить сообщение" />
+            android:text="@string/send_message" />
 
         <Button
             android:id="@+id/showUsersInChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Показать пользователей" />
+            android:text="@string/show_users" />
 
         <Button
             android:id="@+id/addUserToChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Добавить пользователя" />
+            android:text="@string/add_users" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/leaveChat"
-            android:text="Покинуть чат"/>
+            android:text="@string/leave_chat"/>
 
 
     </LinearLayout>

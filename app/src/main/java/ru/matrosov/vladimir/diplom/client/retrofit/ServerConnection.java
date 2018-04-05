@@ -34,7 +34,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<AutorizationResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
 
             }
         });
@@ -51,7 +51,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<RegistrationResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -66,7 +66,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<ShowUsersResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -82,7 +82,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<SettingResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -98,7 +98,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -113,7 +113,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<ShowChatroomsResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -128,7 +128,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<AddChatResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -143,7 +143,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<AddUserToChatResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -158,7 +158,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<ShowChatResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -173,7 +173,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<SendMessageResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -188,7 +188,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<GetUsersByChatResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -203,7 +203,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<OpenChatResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -218,7 +218,7 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<LeaveChatResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
@@ -233,9 +233,12 @@ public class ServerConnection {
 
             @Override
             public void onFailure(Call<DeleteUserResponse> call, Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+                writeErrorMessage();
             }
         });
     }
 
+    public void writeErrorMessage(){
+        Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+    }
 }

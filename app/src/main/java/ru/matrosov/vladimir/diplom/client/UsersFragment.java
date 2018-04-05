@@ -13,8 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,6 +23,10 @@ import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.ShowUsersResponse;
 import viewHolders.UsersViewHolder;
 
+import static constants.IntentParameters.EMAIL;
+import static constants.IntentParameters.ID_CHAT;
+import static constants.IpAdress.IP_ADRESS;
+
 
 public class UsersFragment extends Fragment {
     @Nullable
@@ -32,7 +34,7 @@ public class UsersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_users, container, false);
 
-        ServerConnection serverConnection = new ServerConnection(LoginActivity.server, this.getContext());
+        ServerConnection serverConnection = new ServerConnection(IP_ADRESS, this.getContext());
         serverConnection.showingUsers(this::onResponse);
         return view;
     }
@@ -62,17 +64,17 @@ public class UsersFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             Intent intent = getActivity().getIntent();
-                            String email = intent.getStringExtra(LoginActivity.EMAIL);
+                            String email = intent.getStringExtra(EMAIL);
                             String email_user = users.get(position).getEmail();
 
-                            ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+                            ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
                             serverConnection.openingChat(email, email_user, this::onRaponseOpenChat);
                         }
 
                         void onRaponseOpenChat(OpenChatResponse openChatResponse) {
                             if (openChatResponse.getStatus() == 0) {
                                 Intent intent = getActivity().getIntent();
-                                intent.putExtra(AddUsersToChatFragment.ID_CHAT, openChatResponse.getChatroom().getChatroomID());
+                                intent.putExtra(ID_CHAT, openChatResponse.getChatroom().getChatroomID());
                                 FragmentManager fragmentManager = getFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.frame_main, new ShowChatFragment());

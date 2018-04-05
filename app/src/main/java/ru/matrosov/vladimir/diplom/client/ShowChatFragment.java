@@ -1,8 +1,6 @@
 package ru.matrosov.vladimir.diplom.client;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,12 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import data.Chatroom;
 import data.Message;
 import data.User;
 import ru.matrosov.vladimir.diplom.client.retrofit.LeaveChatResponse;
@@ -29,6 +25,10 @@ import ru.matrosov.vladimir.diplom.client.retrofit.SendMessageResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.ShowChatResponse;
 import viewHolders.ShowChatViewHolder;
+
+import static constants.IntentParameters.EMAIL;
+import static constants.IntentParameters.ID_CHAT;
+import static constants.IpAdress.IP_ADRESS;
 
 
 public class ShowChatFragment extends Fragment {
@@ -38,9 +38,9 @@ public class ShowChatFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_show_chat, container, false);
 
         Intent intent = getActivity().getIntent();
-        Integer idChat = intent.getIntExtra(AddUsersToChatFragment.ID_CHAT, 0);
-        String email = intent.getStringExtra(LoginActivity.EMAIL);
-        ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+        Integer idChat = intent.getIntExtra(ID_CHAT, 0);
+        String email = intent.getStringExtra(EMAIL);
+        ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
         serverConnection.showingChat(idChat, email, this::onResponseShowChat);
 
         Button buttonAddUsersToChat = view.findViewById(R.id.addUserToChat);
@@ -79,10 +79,10 @@ public class ShowChatFragment extends Fragment {
 
     void leaveChat(View view) {
         Intent intent = getActivity().getIntent();
-        Integer idChat = intent.getIntExtra(AddUsersToChatFragment.ID_CHAT, 0);
-        String email = intent.getStringExtra(LoginActivity.EMAIL);
+        Integer idChat = intent.getIntExtra(ID_CHAT, 0);
+        String email = intent.getStringExtra(EMAIL);
 
-        ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+        ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
         serverConnection.leavingChat(idChat, email, this::onResponseLeaveChat);
     }
 

@@ -1,12 +1,9 @@
 package ru.matrosov.vladimir.diplom.client;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,13 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.matrosov.vladimir.diplom.client.retrofit.DeleteUserResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.SettingResponse;
+
+import static constants.IntentParameters.EMAIL;
+import static constants.IntentParameters.FIRST_NAME;
+import static constants.IntentParameters.LAST_NAME;
+import static constants.IntentParameters.POST;
+import static constants.IpAdress.IP_ADRESS;
 
 
 public class SettingsFragment extends Fragment {
@@ -31,10 +32,10 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         Intent intent = this.getActivity().getIntent();
-        String email = intent.getStringExtra(LoginActivity.EMAIL);
-        String firstName = intent.getStringExtra(LoginActivity.FIRST_NAME);
-        String lastName = intent.getStringExtra(LoginActivity.LAST_NAME);
-        String post = intent.getStringExtra(LoginActivity.POST);
+        String email = intent.getStringExtra(EMAIL);
+        String firstName = intent.getStringExtra(FIRST_NAME);
+        String lastName = intent.getStringExtra(LAST_NAME);
+        String post = intent.getStringExtra(POST);
 
         EditText editTextEmail = view.findViewById(R.id.email_input_set);
         editTextEmail.setText(email);
@@ -57,7 +58,7 @@ public class SettingsFragment extends Fragment {
                 String lastName = editTextLastName.getText().toString();
                 String post = editTextPost.getText().toString();
 
-                ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+                ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
                 serverConnection.setting(email, firstName, lastName, newEmail, post, this::onSettingResponse);
             }
 
@@ -65,10 +66,10 @@ public class SettingsFragment extends Fragment {
                 if (response.getStatus() == 0){
                     Toast.makeText(getContext(), "Response: " + response.toString(), Toast.LENGTH_LONG).show();
                     Intent intent = getActivity().getIntent();
-                    intent.putExtra(LoginActivity.EMAIL, response.getUser().getEmail());
-                    intent.putExtra(LoginActivity.FIRST_NAME, response.getUser().getFirstName());
-                    intent.putExtra(LoginActivity.LAST_NAME, response.getUser().getLastName());
-                    intent.putExtra(LoginActivity.POST, response.getUser().getPost());
+                    intent.putExtra(EMAIL, response.getUser().getEmail());
+                    intent.putExtra(FIRST_NAME, response.getUser().getFirstName());
+                    intent.putExtra(LAST_NAME, response.getUser().getLastName());
+                    intent.putExtra(POST, response.getUser().getPost());
 
                 } else if (response.getStatus() == -1){
                     Toast.makeText(getContext(), "Проверьте введенные данные", Toast.LENGTH_LONG).show();
@@ -83,7 +84,7 @@ public class SettingsFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+                ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
                 serverConnection.delatingUser(email, this::onResponseDeleteUser);
             }
 

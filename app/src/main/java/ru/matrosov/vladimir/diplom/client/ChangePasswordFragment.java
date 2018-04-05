@@ -1,8 +1,6 @@
 package ru.matrosov.vladimir.diplom.client;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +16,10 @@ import android.widget.Toast;
 import ru.matrosov.vladimir.diplom.client.retrofit.ChangePasswordResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 
+import static constants.IntentParameters.EMAIL;
+import static constants.IntentParameters.PASSWORD;
+import static constants.IpAdress.IP_ADRESS;
+
 
 public class ChangePasswordFragment extends Fragment {
     @Nullable
@@ -32,7 +34,7 @@ public class ChangePasswordFragment extends Fragment {
 
     public void savePassword(View view) {
         Intent intent = this.getActivity().getIntent();
-        String email = intent.getStringExtra(LoginActivity.EMAIL);
+        String email = intent.getStringExtra(EMAIL);
 
         RelativeLayout relativeLayout = getView().findViewById(R.id.change_pass_fragment);
 
@@ -45,7 +47,7 @@ public class ChangePasswordFragment extends Fragment {
         EditText editTextPass2 = relativeLayout.findViewById(R.id.password2_input_change);
         String password2 = editTextPass2.getText().toString();
 
-        ServerConnection serverConnection = new ServerConnection(LoginActivity.server, this.getContext());
+        ServerConnection serverConnection = new ServerConnection(IP_ADRESS, this.getContext());
         serverConnection.changingPassword(email, password, password1, password2, this::onChangePassResponse);
     }
 
@@ -53,7 +55,7 @@ public class ChangePasswordFragment extends Fragment {
         if (response.getStatus() == 0) {
             Toast.makeText(this.getContext(), "Response: " + response.toString(), Toast.LENGTH_LONG).show();
             Intent intent = getActivity().getIntent();
-            intent.putExtra(LoginActivity.PASSWORD, response.getUser().getPassword());
+            intent.putExtra(PASSWORD, response.getUser().getPassword());
         } else if(response.getStatus() == -1){
             Toast.makeText(this.getContext(), "Введен неправильный текущий пароль", Toast.LENGTH_LONG).show();
         } else if(response.getStatus() == -2){

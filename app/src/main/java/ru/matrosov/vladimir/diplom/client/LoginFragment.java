@@ -18,13 +18,13 @@ import android.widget.Toast;
 import ru.matrosov.vladimir.diplom.client.retrofit.AutorizationResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.EMAIL;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.FIRST_NAME;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.LAST_NAME;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.PASSWORD;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.POST;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.USER_ID;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.server;
+import static constants.IntentParameters.EMAIL;
+import static constants.IntentParameters.FIRST_NAME;
+import static constants.IntentParameters.LAST_NAME;
+import static constants.IntentParameters.PASSWORD;
+import static constants.IntentParameters.POST;
+import static constants.IntentParameters.USER_ID;
+import static constants.IpAdress.IP_ADRESS;
 
 
 public class LoginFragment extends Fragment {
@@ -48,7 +48,7 @@ public class LoginFragment extends Fragment {
         EditText editTextEmail = linearLayout.findViewById(R.id.email_sign_in);
         EditText editTextPassword = linearLayout.findViewById(R.id.password_sign_in);
 
-        ServerConnection serverConnection = new ServerConnection(server, this.getContext());
+        ServerConnection serverConnection = new ServerConnection(IP_ADRESS, this.getContext());
         serverConnection.autorize(
                 editTextEmail.getText().toString(),
                 editTextPassword.getText().toString(),

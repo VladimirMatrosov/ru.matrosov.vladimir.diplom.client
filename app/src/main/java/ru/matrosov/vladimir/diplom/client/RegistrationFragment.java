@@ -16,13 +16,13 @@ import android.widget.Toast;
 import ru.matrosov.vladimir.diplom.client.retrofit.RegistrationResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.EMAIL;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.FIRST_NAME;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.LAST_NAME;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.PASSWORD;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.POST;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.USER_ID;
-import static ru.matrosov.vladimir.diplom.client.LoginActivity.server;
+import static constants.IntentParameters.EMAIL;
+import static constants.IntentParameters.FIRST_NAME;
+import static constants.IntentParameters.LAST_NAME;
+import static constants.IntentParameters.PASSWORD;
+import static constants.IntentParameters.POST;
+import static constants.IntentParameters.USER_ID;
+import static constants.IpAdress.IP_ADRESS;
 
 
 public class RegistrationFragment extends Fragment {
@@ -46,7 +46,7 @@ public class RegistrationFragment extends Fragment {
         EditText editTextPassword1 = relativeLayout.findViewById(R.id.password1_input_registration);
         EditText editTextPassword2 = relativeLayout.findViewById(R.id.password2_input_registration);
 
-        ServerConnection serverConnection = new ServerConnection(server, this.getContext());
+        ServerConnection serverConnection = new ServerConnection(IP_ADRESS, this.getContext());
         serverConnection.register(editTextFirstName.getText().toString(), editTextLastName.getText().toString(),
                 editTextEmail.getText().toString(), editTextPost.getText().toString(),
                 editTextPassword1.getText().toString(), editTextPassword2.getText().toString(),

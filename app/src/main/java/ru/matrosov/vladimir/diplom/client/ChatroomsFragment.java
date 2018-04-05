@@ -1,8 +1,6 @@
 package ru.matrosov.vladimir.diplom.client;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +23,10 @@ import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.ShowChatroomsResponse;
 import viewHolders.ChatroomViewHolder;
 
+import static constants.IntentParameters.EMAIL;
+import static constants.IntentParameters.ID_CHAT;
+import static constants.IpAdress.IP_ADRESS;
+
 public class ChatroomsFragment extends Fragment {
 
     @Nullable
@@ -35,12 +36,12 @@ public class ChatroomsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chatrooms, container, false);
 
         Intent intent = this.getActivity().getIntent();
-        String email = intent.getStringExtra(LoginActivity.EMAIL);
+        String email = intent.getStringExtra(EMAIL);
 
         Button buttonNewChat = view.findViewById(R.id.new_chat);
         buttonNewChat.setOnClickListener(this::newChat);
 
-        ServerConnection serverConnection = new ServerConnection(LoginActivity.server, this.getContext());
+        ServerConnection serverConnection = new ServerConnection(IP_ADRESS, this.getContext());
         serverConnection.showingChatrooms(email, this::onResponseShowChatrooms);
         return view;
     }
@@ -78,7 +79,7 @@ public class ChatroomsFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = getActivity().getIntent();
-                                    intent.putExtra(AddUsersToChatFragment.ID_CHAT, chatrooms.get(position).getChatroomID());
+                                    intent.putExtra(ID_CHAT, chatrooms.get(position).getChatroomID());
                                     FragmentManager fragmentManager = getFragmentManager();
                                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                     fragmentTransaction.replace(R.id.frame_main, new ShowChatFragment());

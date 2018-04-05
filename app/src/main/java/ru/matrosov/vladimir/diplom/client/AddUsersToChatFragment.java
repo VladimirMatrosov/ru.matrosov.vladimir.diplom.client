@@ -1,43 +1,37 @@
 package ru.matrosov.vladimir.diplom.client;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import data.User;
-import ru.matrosov.vladimir.diplom.client.retrofit.AddChatResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.AddUserToChatResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.ShowUsersResponse;
 import viewHolders.UsersViewHolder;
 
+import static constants.IntentParameters.ID_CHAT;
+import static constants.IpAdress.IP_ADRESS;
+
 
 public class AddUsersToChatFragment extends Fragment {
-
-    public static final String ID_CHAT = "idChat";
-    public static final String EMAIL_ADD_USER = "email_add_user";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_users_to_chat, container, false);
 
-        ServerConnection serverConnection = new ServerConnection(LoginActivity.server, this.getContext());
+        ServerConnection serverConnection = new ServerConnection(IP_ADRESS, this.getContext());
         serverConnection.showingUsers(this::onResponse);
         return view;
     }
@@ -69,7 +63,7 @@ public class AddUsersToChatFragment extends Fragment {
                         public void onClick(View v) {
                             Intent intent = getActivity().getIntent();
                             Integer idChat = intent.getIntExtra(ID_CHAT, 0);
-                            ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+                            ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
                             serverConnection.addingUserToChat(idChat, holder.getEmailTextView().getText().toString(),
                                     this::onResponseAddUserToChat);
                         }

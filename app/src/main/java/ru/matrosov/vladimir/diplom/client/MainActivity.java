@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import static constants.IntentParameters.EMAIL;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intObj = getIntent();
-        String emailOutput = intObj.getStringExtra(LoginActivity.EMAIL);
+        String emailOutput = intObj.getStringExtra(EMAIL);
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         TextView textViewEmailOutput = headerLayout.findViewById(R.id.textViewEmailOutput);
         textViewEmailOutput.setText(emailOutput);

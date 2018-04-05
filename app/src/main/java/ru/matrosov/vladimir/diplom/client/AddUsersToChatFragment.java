@@ -24,6 +24,7 @@ import ru.matrosov.vladimir.diplom.client.retrofit.AddChatResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.AddUserToChatResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.ShowUsersResponse;
+import viewHolders.UsersViewHolder;
 
 
 public class AddUsersToChatFragment extends Fragment {
@@ -47,29 +48,29 @@ public class AddUsersToChatFragment extends Fragment {
 
             RecyclerView recyclerView = getView().findViewById(R.id.recyclerViewAddUserToChat);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-            RecyclerView.Adapter<MyUserViewHolder> userViewHolderAdapter =
-                    new RecyclerView.Adapter<MyUserViewHolder>() {
+            RecyclerView.Adapter<UsersViewHolder> userViewHolderAdapter =
+                    new RecyclerView.Adapter<UsersViewHolder>() {
                 @NonNull
                 @Override
-                public MyUserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                     View view = LayoutInflater.from(getContext()).inflate(R.layout.user_cell_layout,
                             parent, false);
-                    return new MyUserViewHolder(view);
+                    return new UsersViewHolder(view);
                 }
 
                 @Override
-                public void onBindViewHolder(@NonNull MyUserViewHolder holder, int position) {
+                public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
                     holder.setEmail(users.get(position).getEmail());
                     holder.setName(users.get(position).getFirstName() + " " + users.get(position).getLastName());
                     holder.setPost(users.get(position).getPost());
-                    holder.button.setImageResource(R.drawable.ic_person_add_black);
-                    holder.button.setOnClickListener(new View.OnClickListener() {
+                    holder.getButton().setImageResource(R.drawable.ic_person_add_black);
+                    holder.getButton().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = getActivity().getIntent();
                             Integer idChat = intent.getIntExtra(ID_CHAT, 0);
                             ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
-                            serverConnection.addingUserToChat(idChat, holder.emailTextView.getText().toString(),
+                            serverConnection.addingUserToChat(idChat, holder.getEmailTextView().getText().toString(),
                                     this::onResponseAddUserToChat);
                         }
 
@@ -97,31 +98,5 @@ public class AddUsersToChatFragment extends Fragment {
         }
     }
 
-    class MyUserViewHolder extends RecyclerView.ViewHolder {
-        private TextView emailTextView;
-        private TextView nameTextView;
-        private TextView postTextView;
-        private ImageButton button;
-
-        public MyUserViewHolder(View itemView) {
-            super(itemView);
-            this.emailTextView = itemView.findViewById(R.id.user_email);
-            this.nameTextView = itemView.findViewById(R.id.user_name);
-            this.postTextView = itemView.findViewById(R.id.user_post);
-            this.button = itemView.findViewById(R.id.send_message_user);
-        }
-
-        void setEmail(String text) {
-            emailTextView.setText(text);
-        }
-
-        void setName(String text) {
-            nameTextView.setText(text);
-        }
-
-        void setPost(String text) {
-            postTextView.setText(postTextView.getText() + text);
-        }
-    }
 }
 

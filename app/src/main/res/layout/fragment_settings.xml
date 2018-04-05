@@ -71,7 +71,6 @@
                 android:layout_below="@id/post_input_set"
                 android:layout_marginTop="15dp"
                 android:text="Сохранить изменения"
-                android:textStyle="bold"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="447dp" />
 
@@ -81,9 +80,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/save_settings_button"
-                android:layout_marginTop="25dp"
-                android:text="Изменение пароля"
-                android:textStyle="bold" />
+                android:text="Изменение пароля" />
+
+            <Button
+                android:id="@+id/deleteUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?android:textAppearanceSmall"
+                android:layout_below="@id/change_password_button"
+                android:text="Удалить пользователя" />
 
             <TextView
                 android:id="@+id/textViewEmail"

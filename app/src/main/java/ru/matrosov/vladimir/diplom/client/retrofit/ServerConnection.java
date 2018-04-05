@@ -177,4 +177,65 @@ public class ServerConnection {
             }
         });
     }
+
+    public void gettingUsersByChat(Integer idChst, ResponseSuccessCallback<GetUsersByChatResponse> callback){
+        GetUsersByChat service = retrofit.create(GetUsersByChat.class);
+        service.gettingUsersByChat(idChst).enqueue(new Callback<GetUsersByChatResponse>() {
+            @Override
+            public void onResponse(Call<GetUsersByChatResponse> call, Response<GetUsersByChatResponse> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetUsersByChatResponse> call, Throwable t) {
+                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void openingChat(String email, String email_user, ResponseSuccessCallback<OpenChatResponse> callback){
+        OpenChat service = retrofit.create(OpenChat.class);
+        service.openingChat(email, email_user).enqueue(new Callback<OpenChatResponse>() {
+            @Override
+            public void onResponse(Call<OpenChatResponse> call, Response<OpenChatResponse> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<OpenChatResponse> call, Throwable t) {
+                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void leavingChat(Integer idChat, String email, ResponseSuccessCallback<LeaveChatResponse> callback) {
+        LeaveChat service = retrofit.create(LeaveChat.class);
+        service.leavingChat(idChat, email).enqueue(new Callback<LeaveChatResponse>() {
+            @Override
+            public void onResponse(Call<LeaveChatResponse> call, Response<LeaveChatResponse> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<LeaveChatResponse> call, Throwable t) {
+                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void delatingUser(String email, ResponseSuccessCallback<DeleteUserResponse> callback){
+        DeleteUser service = retrofit.create(DeleteUser.class);
+        service.deletingUser(email).enqueue(new Callback<DeleteUserResponse>() {
+            @Override
+            public void onResponse(Call<DeleteUserResponse> call, Response<DeleteUserResponse> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DeleteUserResponse> call, Throwable t) {
+                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }

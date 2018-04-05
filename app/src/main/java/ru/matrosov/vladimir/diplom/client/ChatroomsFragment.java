@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import data.Chatroom;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.ShowChatroomsResponse;
+import viewHolders.ChatroomViewHolder;
 
 public class ChatroomsFragment extends Fragment {
 
@@ -60,20 +61,20 @@ public class ChatroomsFragment extends Fragment {
 
             ArrayList<Chatroom> chatrooms = (ArrayList<Chatroom>) response.getChatrooms();
 
-            RecyclerView.Adapter<MyChatroomViewHolder> chatroomViewHolderAdapter =
-                    new RecyclerView.Adapter<MyChatroomViewHolder>() {
+            RecyclerView.Adapter<ChatroomViewHolder> chatroomViewHolderAdapter =
+                    new RecyclerView.Adapter<ChatroomViewHolder>() {
                         @NonNull
                         @Override
-                        public MyChatroomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                        public ChatroomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                             View view = LayoutInflater.from(getContext()).inflate(R.layout.chatrooms_cell_layout,
                                     parent, false);
-                            return new MyChatroomViewHolder(view);
+                            return new ChatroomViewHolder(view);
                         }
 
                         @Override
-                        public void onBindViewHolder(@NonNull MyChatroomViewHolder holder, int position) {
-                            holder.textViewName.setText(chatrooms.get(position).getName());
-                            holder.button.setOnClickListener(new View.OnClickListener() {
+                        public void onBindViewHolder(@NonNull ChatroomViewHolder holder, int position) {
+                            holder.getTextViewName().setText(chatrooms.get(position).getName());
+                            holder.getButton().setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = getActivity().getIntent();
@@ -102,22 +103,4 @@ public class ChatroomsFragment extends Fragment {
         }
     }
 
-    class MyChatroomViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewName;
-        private ImageButton button;
-
-        public MyChatroomViewHolder(View itemView) {
-            super(itemView);
-            this.textViewName = itemView.findViewById(R.id.chatroom_name);
-            this.button = itemView.findViewById(R.id.send_message_chatroom);
-        }
-
-        void setName(String text) {
-            textViewName.setText(text);
-        }
-
-        public ImageButton getButton() {
-            return button;
-        }
-    }
 }

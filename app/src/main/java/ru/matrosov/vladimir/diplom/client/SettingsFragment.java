@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ru.matrosov.vladimir.diplom.client.retrofit.DeleteUserResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.SettingResponse;
 
@@ -48,10 +49,53 @@ public class SettingsFragment extends Fragment {
         editTextPost.setText(post);
 
         Button saveButton = view.findViewById(R.id.save_settings_button);
-        saveButton.setOnClickListener(this::saveSettings);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newEmail = editTextEmail.getText().toString();
+                String firstName = editTextFirstName.getText().toString();
+                String lastName = editTextLastName.getText().toString();
+                String post = editTextPost.getText().toString();
+
+                ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+                serverConnection.setting(email, firstName, lastName, newEmail, post, this::onSettingResponse);
+            }
+
+            void onSettingResponse(SettingResponse response) {
+                if (response.getStatus() == 0){
+                    Toast.makeText(getContext(), "Response: " + response.toString(), Toast.LENGTH_LONG).show();
+                    Intent intent = getActivity().getIntent();
+                    intent.putExtra(LoginActivity.EMAIL, response.getUser().getEmail());
+                    intent.putExtra(LoginActivity.FIRST_NAME, response.getUser().getFirstName());
+                    intent.putExtra(LoginActivity.LAST_NAME, response.getUser().getLastName());
+                    intent.putExtra(LoginActivity.POST, response.getUser().getPost());
+
+                } else if (response.getStatus() == -1){
+                    Toast.makeText(getContext(), "Проверьте введенные данные", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         Button passButton = view.findViewById(R.id.change_password_button);
         passButton.setOnClickListener(this::changePassword);
+
+        Button deleteButton = view.findViewById(R.id.deleteUser);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+                serverConnection.delatingUser(email, this::onResponseDeleteUser);
+            }
+
+            void onResponseDeleteUser(DeleteUserResponse deleteUserResponse) {
+                if (deleteUserResponse.getStatus() == 0) {
+                    Intent newIntent = new Intent(getActivity(),LoginActivity.class);
+                    startActivity(newIntent);
+                }else {
+                    Toast.makeText(getContext(),"Не удалось удалить пользователя", Toast.LENGTH_LONG);
+                }
+            }
+        });
         return view;
     }
 
@@ -61,40 +105,5 @@ public class SettingsFragment extends Fragment {
         ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
         fragmentTransaction.replace(R.id.frame_main, changePasswordFragment);
         fragmentTransaction.commit();
-    }
-
-    public void saveSettings(View view) {
-        Intent intent = this.getActivity().getIntent();
-        String email = intent.getStringExtra(LoginActivity.EMAIL);
-
-        RelativeLayout relativeLayout = getView().findViewById(R.id.settings_fragment);
-        EditText editTextEmail = relativeLayout.findViewById(R.id.email_input_set);
-        String newEmail = editTextEmail.getText().toString();
-
-        EditText editTextFirstName = relativeLayout.findViewById(R.id.firstName_input_set);
-        String firstName = editTextFirstName.getText().toString();
-
-        EditText editTextLastName = relativeLayout.findViewById(R.id.lastName_input_set);
-        String lastName = editTextLastName.getText().toString();
-
-        EditText editTextPost = relativeLayout.findViewById(R.id.post_input_set);
-        String post = editTextPost.getText().toString();
-
-        ServerConnection serverConnection = new ServerConnection(LoginActivity.server, this.getContext());
-        serverConnection.setting(email, firstName, lastName, newEmail, post, this::onSettingResponse);
-    }
-
-    void onSettingResponse(SettingResponse response) {
-        if (response.getStatus() == 0){
-            Toast.makeText(this.getContext(), "Response: " + response.toString(), Toast.LENGTH_LONG).show();
-            Intent intent = getActivity().getIntent();
-            intent.putExtra(LoginActivity.EMAIL, response.getUser().getEmail());
-            intent.putExtra(LoginActivity.FIRST_NAME, response.getUser().getFirstName());
-            intent.putExtra(LoginActivity.LAST_NAME, response.getUser().getLastName());
-            intent.putExtra(LoginActivity.POST, response.getUser().getPost());
-
-        } else if (response.getStatus() == -1){
-            Toast.makeText(this.getContext(), "Проверьте введенные данные", Toast.LENGTH_LONG).show();
-        }
     }
 }

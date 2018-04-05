@@ -1,10 +1,13 @@
 package ru.matrosov.vladimir.diplom.client;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,8 +20,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import data.User;
+import ru.matrosov.vladimir.diplom.client.retrofit.OpenChatResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.ShowUsersResponse;
+import viewHolders.UsersViewHolder;
 
 
 public class UsersFragment extends Fragment {
@@ -39,20 +44,48 @@ public class UsersFragment extends Fragment {
 
             RecyclerView recyclerView = getView().findViewById(R.id.recyclerViewUsers);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-            RecyclerView.Adapter<MyUserViewHolder> userViewHolderAdapter = new RecyclerView.Adapter<MyUserViewHolder>() {
+            RecyclerView.Adapter<UsersViewHolder> userViewHolderAdapter = new RecyclerView.Adapter<UsersViewHolder>() {
                 @NonNull
                 @Override
-                public MyUserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                     View view = LayoutInflater.from(getContext()).inflate(R.layout.user_cell_layout, parent, false);
-                    return new MyUserViewHolder(view);
+                    return new UsersViewHolder(view);
                 }
 
                 @Override
-                public void onBindViewHolder(@NonNull MyUserViewHolder holder, int position) {
+                public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
                     holder.setEmail(users.get(position).getEmail());
                     holder.setName(users.get(position).getFirstName() + " " + users.get(position).getLastName());
                     holder.setPost(users.get(position).getPost());
-                    holder.button.setImageResource(R.drawable.ic_email_black);
+                    holder.getButton().setImageResource(R.drawable.ic_email_black);
+                    holder.getButton().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = getActivity().getIntent();
+                            String email = intent.getStringExtra(LoginActivity.EMAIL);
+                            String email_user = users.get(position).getEmail();
+
+                            ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+                            serverConnection.openingChat(email, email_user, this::onRaponseOpenChat);
+                        }
+
+                        void onRaponseOpenChat(OpenChatResponse openChatResponse) {
+                            if (openChatResponse.getStatus() == 0) {
+                                Intent intent = getActivity().getIntent();
+                                intent.putExtra(AddUsersToChatFragment.ID_CHAT, openChatResponse.getChatroom().getChatroomID());
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.frame_main, new ShowChatFragment());
+                                fragmentTransaction.commit();
+                            } else if (openChatResponse.getStatus() == -3) {
+                                Toast.makeText(getContext(), "Нельзя создать чат с данным пользователем",
+                                        Toast.LENGTH_LONG).show();
+                            } else if (openChatResponse.getStatus() == -1) {
+                                Toast.makeText(getContext(), "Не удалось открыть чат с данным пользователем",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
 
                 @Override
@@ -65,33 +98,6 @@ public class UsersFragment extends Fragment {
             userViewHolderAdapter.notifyDataSetChanged();
         } else {
             Toast.makeText(this.getContext(), "В системе нет пользователей", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    class MyUserViewHolder extends RecyclerView.ViewHolder {
-        private TextView emailTextView;
-        private TextView nameTextView;
-        private TextView postTextView;
-        private ImageButton button;
-
-        public MyUserViewHolder(View itemView) {
-            super(itemView);
-            this.emailTextView = itemView.findViewById(R.id.user_email);
-            this.nameTextView = itemView.findViewById(R.id.user_name);
-            this.postTextView = itemView.findViewById(R.id.user_post);
-            this.button = itemView.findViewById(R.id.send_message_user);
-        }
-
-        void setEmail(String text) {
-            emailTextView.setText(text);
-        }
-
-        void setName(String text) {
-            nameTextView.setText(text);
-        }
-
-        void setPost(String text) {
-            postTextView.setText(postTextView.getText() + text);
         }
     }
 }

@@ -24,9 +24,11 @@ import java.util.ArrayList;
 import data.Chatroom;
 import data.Message;
 import data.User;
+import ru.matrosov.vladimir.diplom.client.retrofit.LeaveChatResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.SendMessageResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.ShowChatResponse;
+import viewHolders.ShowChatViewHolder;
 
 
 public class ShowChatFragment extends Fragment {
@@ -66,7 +68,42 @@ public class ShowChatFragment extends Fragment {
                 }
             }
         });
+
+        Button buttonSowUsers = view.findViewById(R.id.showUsersInChat);
+        buttonSowUsers.setOnClickListener(this::showUsers);
+
+        Button buttonLeaveChat = view.findViewById(R.id.leaveChat);
+        buttonLeaveChat.setOnClickListener(this::leaveChat);
         return  view;
+    }
+
+    void leaveChat(View view) {
+        Intent intent = getActivity().getIntent();
+        Integer idChat = intent.getIntExtra(AddUsersToChatFragment.ID_CHAT, 0);
+        String email = intent.getStringExtra(LoginActivity.EMAIL);
+
+        ServerConnection serverConnection = new ServerConnection(LoginActivity.server, getContext());
+        serverConnection.leavingChat(idChat, email, this::onResponseLeaveChat);
+    }
+
+    void onResponseLeaveChat(LeaveChatResponse leaveChatResponse) {
+        if (leaveChatResponse.getStatus() == 0) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_main, new ChatroomsFragment());
+            fragmentTransaction.commit();
+        } else  if(leaveChatResponse.getStatus() == -4) {
+            Toast.makeText(getContext(), "Вы не состоите в данном чате", Toast.LENGTH_LONG).show();
+        } else if (leaveChatResponse.getStatus() == -1) {
+            Toast.makeText(getContext(), "Не удалось покинуть чат", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    void showUsers(View view) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_main, new UsersByChatFragment());
+        fragmentTransaction.commit();
     }
 
     void addUserToChat(View view) {
@@ -114,31 +151,6 @@ public class ShowChatFragment extends Fragment {
             Toast.makeText(getContext(), "Вы не состоите в данном чате", Toast.LENGTH_LONG).show();
         }else if (response.getStatus() == -5) {
             Toast.makeText(getContext(), "В данном чате нет сообщений", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    class ShowChatViewHolder extends RecyclerView.ViewHolder{
-        TextView textViewData;
-        TextView textViewText;
-        TextView textViewNameUser;
-
-        public ShowChatViewHolder(View itemView) {
-            super(itemView);
-            textViewData = itemView.findViewById(R.id.message_data);
-            textViewText = itemView.findViewById(R.id.message_text);
-            textViewNameUser = itemView.findViewById(R.id.message_user);
-        }
-
-        void setData(String text) {
-            textViewData.setText(textViewData.getText() + text);
-        }
-
-        void setTextEdit(String text) {
-            textViewText.setText(text);
-        }
-
-        void setName(String text) {
-            textViewNameUser.setText(textViewNameUser.getText() + text);
         }
     }
 }

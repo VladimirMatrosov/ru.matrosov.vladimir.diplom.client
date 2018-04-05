@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +46,13 @@ public class AddChatFragment extends Fragment {
 
     void onResponseAddChat(AddChatResponse response) {
         if (response.getStatus() == 0) {
-            Toast.makeText(this.getContext(), response.toString(), Toast.LENGTH_LONG).show();
+            Intent intent = getActivity().getIntent();
+            Integer idChat = response.getChatroom().getChatroomID();
+            intent.putExtra(AddUsersToChatFragment.ID_CHAT, idChat);
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_main, new ShowChatFragment());
+            fragmentTransaction.commit();
         } else {
             Toast.makeText(this.getContext(), "Введите имя чата", Toast.LENGTH_LONG).show();
         }

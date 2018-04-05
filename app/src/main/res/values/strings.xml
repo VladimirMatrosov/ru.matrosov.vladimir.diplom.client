@@ -41,6 +41,8 @@
     <string name="action_chatroom">Чаты</string>
     <string name="action_settings">Настройки</string>
     <string name="action_exit">Выход</string>
+    <string name="email_label">email</string>
+    <string name="password_label">Пароль</string>
 
 
 </resources>

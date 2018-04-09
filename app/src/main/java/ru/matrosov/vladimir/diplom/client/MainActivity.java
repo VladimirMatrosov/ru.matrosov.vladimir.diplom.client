@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import static constants.IntentParameters.EMAIL;
@@ -50,15 +51,25 @@ public class MainActivity extends AppCompatActivity
         String firstNameOutput = intObj.getStringExtra(FIRST_NAME);
         String lastNameOutput = intObj.getStringExtra(LAST_NAME);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        new FragmentSupports().addFragments(fragmentManager, R.id.frame_main, new HomeFragment());
+
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        ImageView imageView = headerLayout.findViewById(R.id.imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new FragmentSupports().replaceFragments(fragmentManager, "home", R.id.frame_main,
+                        new HomeFragment());
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
         TextView textViewEmailOutput = headerLayout.findViewById(R.id.textViewEmailOutput);
         textViewEmailOutput.setText(emailOutput);
 
         TextView textViewNameUser = headerLayout.findViewById(R.id.textViewNameUser);
         textViewNameUser.setText(firstNameOutput + " " + lastNameOutput);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        new FragmentSupports().addFragments(fragmentManager, R.id.frame_main, new HomeFragment());
     }
 
     @Override
@@ -94,6 +105,10 @@ public class MainActivity extends AppCompatActivity
          DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
          drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void mainHome(FragmentManager fragmentManager, String string){
+        new FragmentSupports().replaceFragments(fragmentManager, string, R.id.frame_main, new HomeFragment());
     }
 
 }

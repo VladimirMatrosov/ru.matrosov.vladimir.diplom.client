@@ -89,13 +89,11 @@
 
             <Button
                 android:id="@+id/registration_button"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/password2_input_registration"
                 android:layout_marginTop="25dp"
                 android:text="@string/action_registration"
-                android:textStyle="bold"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="447dp" />
 

@@ -34,7 +34,7 @@
                 android:id="@+id/new_message"
                 android:layout_width="0dp"
                 android:layout_weight="0.9"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="@string/input_message"
                 android:maxLines="1"
                 android:singleLine="true"/>
@@ -43,7 +43,7 @@
                 android:id="@+id/send_new_message"
                 android:layout_width="0dp"
                 android:layout_weight="0.1"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:src="@drawable/ic_send_black"/>
 
         </LinearLayout>

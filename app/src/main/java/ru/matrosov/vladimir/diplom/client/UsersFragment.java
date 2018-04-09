@@ -76,9 +76,8 @@ public class UsersFragment extends Fragment {
                                 Intent intent = getActivity().getIntent();
                                 intent.putExtra(ID_CHAT, openChatResponse.getChatroom().getChatroomID());
                                 FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.replace(R.id.frame_main, new ShowChatFragment());
-                                fragmentTransaction.commit();
+                                new FragmentSupports().replaceFragments(fragmentManager, "users_to_chat",
+                                        R.id.frame_main, new ShowChatFragment());
                             } else if (openChatResponse.getStatus() == -3) {
                                 Toast.makeText(getContext(), "Нельзя создать чат с данным пользователем",
                                         Toast.LENGTH_LONG).show();

@@ -48,10 +48,8 @@ public class ChatroomsFragment extends Fragment {
 
     void newChat(View view) {
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        AddChatFragment addChatFragment = new AddChatFragment();
-        fragmentTransaction.replace(R.id.frame_main, addChatFragment);
-        fragmentTransaction.commit();
+        new FragmentSupports().replaceFragments(fragmentManager, "chatrooms to addChat", R.id.frame_main,
+                new AddChatFragment());
     }
 
     void onResponseShowChatrooms(ShowChatroomsResponse response) {
@@ -81,9 +79,8 @@ public class ChatroomsFragment extends Fragment {
                                     Intent intent = getActivity().getIntent();
                                     intent.putExtra(ID_CHAT, chatrooms.get(position).getChatroomID());
                                     FragmentManager fragmentManager = getFragmentManager();
-                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                    fragmentTransaction.replace(R.id.frame_main, new ShowChatFragment());
-                                    fragmentTransaction.commit();
+                                    new FragmentSupports().replaceFragments(fragmentManager, "chatrooms_to_showChat",
+                                            R.id.frame_main, new ShowChatFragment());
                                 }
                             });
                         }
@@ -97,7 +94,7 @@ public class ChatroomsFragment extends Fragment {
             recyclerView.setAdapter(chatroomViewHolderAdapter);
             chatroomViewHolderAdapter.notifyDataSetChanged();
         } else if (response.getStatus() == -1) {
-            Toast.makeText(getContext(), "Пользователя с таким email нет", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.no_user_with_email, Toast.LENGTH_LONG).show();
         } else if (response.getStatus() == -5) {
             TextView textView = getView().findViewById(R.id.textViewNull);
             textView.setText("Вы не состоите ни в одном диалоге");

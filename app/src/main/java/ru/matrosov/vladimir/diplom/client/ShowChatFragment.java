@@ -57,10 +57,8 @@ public class ShowChatFragment extends Fragment {
 
             void onResponseSendMessage(SendMessageResponse sendMessageResponse) {
                 if (sendMessageResponse.getStatus() == 0){
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame_main, new ShowChatFragment());
-                    fragmentTransaction.commit();
+                    ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
+                    serverConnection.showingChat(idChat, email, ShowChatFragment.this::onResponseShowChat);
                 } else if (sendMessageResponse.getStatus() == -5) {
                     Toast.makeText(getContext(), "Сообщение не может быть пустым", Toast.LENGTH_LONG).show();
                 } else if (sendMessageResponse.getStatus() == -1) {
@@ -89,9 +87,8 @@ public class ShowChatFragment extends Fragment {
     void onResponseLeaveChat(LeaveChatResponse leaveChatResponse) {
         if (leaveChatResponse.getStatus() == 0) {
             FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.frame_main, new ChatroomsFragment());
-            fragmentTransaction.commit();
+            new FragmentSupports().replaceFragments(fragmentManager, "showChat_to_chatrooms", R.id.frame_main,
+                    new ChatroomsFragment());
         } else  if(leaveChatResponse.getStatus() == -4) {
             Toast.makeText(getContext(), "Вы не состоите в данном чате", Toast.LENGTH_LONG).show();
         } else if (leaveChatResponse.getStatus() == -1) {
@@ -101,17 +98,14 @@ public class ShowChatFragment extends Fragment {
 
     void showUsers(View view) {
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_main, new UsersByChatFragment());
-        fragmentTransaction.commit();
+        new FragmentSupports().replaceFragments(fragmentManager, "showChats_to_showUsers", R.id.frame_main,
+                new UsersByChatFragment());
     }
 
     void addUserToChat(View view) {
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_main, new AddUsersToChatFragment());
-        fragmentTransaction.commit();
-
+        new FragmentSupports().replaceFragments(fragmentManager, "showChat_to_addUser", R.id.frame_main,
+                new AddUsersToChatFragment());
     }
 
     void onResponseShowChat(ShowChatResponse response) {

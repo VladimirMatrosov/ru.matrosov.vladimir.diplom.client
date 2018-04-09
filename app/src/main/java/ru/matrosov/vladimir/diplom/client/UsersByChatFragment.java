@@ -45,9 +45,8 @@ public class UsersByChatFragment extends Fragment {
 
     void returnChatroom(View view) {
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_main, new ShowChatFragment());
-        fragmentTransaction.commit();
+        new FragmentSupports().replaceFragments(fragmentManager, "usersChat_to_showChat", R.id.frame_main,
+                new ShowChatFragment());
     }
 
     void onResponseUsersByChat(GetUsersByChatResponse getUsersByChatResponse) {

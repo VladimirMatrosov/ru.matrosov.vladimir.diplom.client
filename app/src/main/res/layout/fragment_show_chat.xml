@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,43 +10,56 @@
         android:orientation="vertical"
         tools:context=".ShowChatFragment">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewShowChat"
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
 
-        <EditText
-            android:id="@+id/new_message"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewShowChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/input_message"
-            android:maxLines="1"
-            android:singleLine="true" />
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="0.5">
 
-        <Button
-            android:id="@+id/send_new_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/send_message" />
+            <EditText
+                android:id="@+id/new_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_message"
+                android:maxLines="1"
+                android:singleLine="true" />
 
-        <Button
-            android:id="@+id/showUsersInChat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/show_users" />
+            <Button
+                android:id="@+id/send_new_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/send_message" />
 
-        <Button
-            android:id="@+id/addUserToChat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/add_users" />
+            <Button
+                android:id="@+id/showUsersInChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_users" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/leaveChat"
-            android:text="@string/leave_chat"/>
+            <Button
+                android:id="@+id/addUserToChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_users" />
 
-
+            <Button
+                android:id="@+id/leaveChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/leave_chat" />
+        </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

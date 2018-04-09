@@ -102,9 +102,7 @@ public class SettingsFragment extends Fragment {
 
     public void changePassword(View view) {
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
-        fragmentTransaction.replace(R.id.frame_main, changePasswordFragment);
-        fragmentTransaction.commit();
+        new FragmentSupports().replaceFragments(fragmentManager, "settings_to_changePass", R.id.frame_main,
+                new ChangePasswordFragment());
     }
 }

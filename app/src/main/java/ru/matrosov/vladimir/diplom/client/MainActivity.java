@@ -66,10 +66,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(fragmentManager.getBackStackEntryCount()>0){
+            fragmentManager.popBackStack();
+        }else {
             super.onBackPressed();
         }
     }
@@ -100,21 +100,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         int id = item.getItemId();
 
         if (id == R.id.nav_users) {
-           UsersFragment usersFragment = new UsersFragment();
-           fragmentTransaction.replace(R.id.frame_main, usersFragment);
-           fragmentTransaction.commit();
+           new FragmentSupports().replaceFragments(fragmentManager,"main to users", R.id.frame_main,
+                   new UsersFragment());
         } else if (id == R.id.nav_chatrooms) {
-            ChatroomsFragment chatroomsFragment = new ChatroomsFragment();
-            fragmentTransaction.replace(R.id.frame_main, chatroomsFragment);
-            fragmentTransaction.commit();
+            new FragmentSupports().replaceFragments(fragmentManager, "main to chatrooms", R.id.frame_main,
+                    new ChatroomsFragment());
         } else if (id == R.id.nav_settings) {
-           SettingsFragment settingsFragment = new SettingsFragment();
-           fragmentTransaction.replace(R.id.frame_main, settingsFragment);
-           fragmentTransaction.commit();
+           new FragmentSupports().replaceFragments(fragmentManager, "main to settings", R.id.frame_main,
+                   new SettingsFragment());
         } else if (id == R.id.nav_exit) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

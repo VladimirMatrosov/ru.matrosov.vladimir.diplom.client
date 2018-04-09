@@ -43,6 +43,8 @@
     <string name="action_exit">Выход</string>
     <string name="email_label">email</string>
     <string name="password_label">Пароль</string>
+    <string name="no_user_with_email">Пользователя с таким email нет</string>
+    <string name="wrong_pass">Набран неправильный пароль</string>
 
 
 </resources>

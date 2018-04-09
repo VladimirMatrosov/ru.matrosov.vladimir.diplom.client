@@ -1,5 +1,6 @@
 package ru.matrosov.vladimir.diplom.client;
 
+import android.arch.lifecycle.ReportFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -67,20 +68,18 @@ public class LoginFragment extends Fragment {
 
             startActivity(intent);
         } else if (response.getStatus() == -2) {
-            Toast.makeText(this.getContext(), "Набран неправильный пароль",
+            Toast.makeText(this.getContext(), R.string.wrong_pass,
                     Toast.LENGTH_LONG).show();
         } else if (response.getStatus() == -1) {
-            Toast.makeText(this.getContext(), "Пользователя с таким email нет",
+            Toast.makeText(this.getContext(), R.string.no_user_with_email,
                     Toast.LENGTH_LONG).show();
         }
     }
 
     public void actionRegistrationForm(View view) {
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        RegistrationFragment registrationFragment = new RegistrationFragment();
-        fragmentTransaction.replace(R.id.login_form,registrationFragment);
-        fragmentTransaction.commit();
+        new FragmentSupports().replaceFragments(fragmentManager, "login_to_register", R.id.login_form,
+                new RegistrationFragment());
     }
 
 }

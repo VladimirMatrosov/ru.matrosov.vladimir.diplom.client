@@ -51,12 +51,12 @@ public class RegistrationFragment extends Fragment {
                 editTextEmail.getText().toString(), editTextPost.getText().toString(),
                 editTextPassword1.getText().toString(), editTextPassword2.getText().toString(),
                 this::onRegistrationResponse);
+
+        setEnabledRegButton(relativeLayout,false);
     }
 
     void onRegistrationResponse(RegistrationResponse response) {
         if (response.getStatus() == 0) {
-            Toast.makeText(this.getContext(), "Response: " + response.toString(), Toast.LENGTH_LONG).show();
-
             Intent intent = new Intent(this.getContext(), MainActivity.class);
             intent.putExtra(EMAIL, response.getUser().getEmail());
             intent.putExtra(PASSWORD, response.getUser().getPassword());
@@ -69,13 +69,20 @@ public class RegistrationFragment extends Fragment {
         } else if (response.getStatus() == -2) {
             Toast.makeText(this.getContext(), "Набранные пароли не совпадают",
                     Toast.LENGTH_LONG).show();
+            setEnabledRegButton(this.getView(),true);
         } else if (response.getStatus() == -1) {
             Toast.makeText(this.getContext(), "Пользователь с таким email уже существует",
                     Toast.LENGTH_LONG).show();
+            setEnabledRegButton(this.getView(),true);
         } else if (response.getStatus() == -5){
             Toast.makeText(this.getContext(), "Не все поля для ввода заполнены",
                     Toast.LENGTH_LONG).show();
+            setEnabledRegButton(this.getView(),true);
         }
-        Toast.makeText(this.getContext(), "Response: " + response.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    void setEnabledRegButton(View view, Boolean bool){
+        Button regButton = view.findViewById(R.id.registration_button);
+        regButton.setEnabled(bool);
     }
 }

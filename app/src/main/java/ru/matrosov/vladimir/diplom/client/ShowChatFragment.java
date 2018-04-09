@@ -73,9 +73,9 @@ public class ShowChatFragment extends Fragment {
                     ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
                     serverConnection.showingChat(idChat, email, ShowChatFragment.this::onResponseShowChat);
                 } else if (sendMessageResponse.getStatus() == -5) {
-                    Toast.makeText(getContext(), "Сообщение не может быть пустым", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), R.string.message_null, Toast.LENGTH_LONG).show();
                 } else if (sendMessageResponse.getStatus() == -1) {
-                    Toast.makeText(getContext(), "Сообщение не удалось отправить", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), R.string.can_not_send_mess, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -83,17 +83,6 @@ public class ShowChatFragment extends Fragment {
         return  view;
     }
 
-    void onResponseLeaveChat(LeaveChatResponse leaveChatResponse) {
-        if (leaveChatResponse.getStatus() == 0) {
-            FragmentManager fragmentManager = getFragmentManager();
-            new FragmentSupports().replaceFragments(fragmentManager, "showChat_to_chatrooms", R.id.frame_main,
-                    new ChatroomsFragment());
-        } else  if(leaveChatResponse.getStatus() == -4) {
-            Toast.makeText(getContext(), "Вы не состоите в данном чате", Toast.LENGTH_LONG).show();
-        } else if (leaveChatResponse.getStatus() == -1) {
-            Toast.makeText(getContext(), "Не удалось покинуть чат", Toast.LENGTH_LONG).show();
-        }
-    }
 
     void onResponseShowChat(ShowChatResponse response) {
         if (response.getStatus() == 0) {
@@ -129,11 +118,11 @@ public class ShowChatFragment extends Fragment {
             recyclerView.setAdapter(showChatViewHolderAdapter);
             showChatViewHolderAdapter.notifyDataSetChanged();
         }else if (response.getStatus() == -1) {
-            Toast.makeText(getContext(), "Не удалось открыть чат", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.can_not_open_chat, Toast.LENGTH_LONG).show();
         }else if (response.getStatus() == -4) {
-            Toast.makeText(getContext(), "Вы не состоите в данном чате", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.has_not_this_chat, Toast.LENGTH_LONG).show();
         }else if (response.getStatus() == -5) {
-            Toast.makeText(getContext(), "В данном чате нет сообщений", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.chat_has_not_mess, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -162,6 +151,18 @@ public class ShowChatFragment extends Fragment {
         }
 
         return true;
+    }
+
+    void onResponseLeaveChat(LeaveChatResponse leaveChatResponse) {
+        if (leaveChatResponse.getStatus() == 0) {
+            FragmentManager fragmentManager = getFragmentManager();
+            new FragmentSupports().replaceFragments(fragmentManager, "showChat_to_chatrooms", R.id.frame_main,
+                    new ChatroomsFragment());
+        } else  if(leaveChatResponse.getStatus() == -4) {
+            Toast.makeText(getContext(), R.string.not_have_chats, Toast.LENGTH_LONG).show();
+        } else if (leaveChatResponse.getStatus() == -1) {
+            Toast.makeText(getContext(), R.string.error_leave_chat, Toast.LENGTH_LONG).show();
+        }
     }
 
 }

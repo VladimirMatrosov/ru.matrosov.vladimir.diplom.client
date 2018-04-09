@@ -70,11 +70,11 @@ public class AddUsersToChatFragment extends Fragment {
 
                         void onResponseAddUserToChat(AddUserToChatResponse response) {
                             if (response.getStatus() == 0) {
-                                Toast.makeText(getContext(), "Пользователь добавлен в чат", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), R.string.user_success_add, Toast.LENGTH_LONG).show();
                                 Intent intent = getActivity().getIntent();
                                 intent.putExtra(ID_CHAT, response.getChatroom().getChatroomID());
                             }else
-                                Toast.makeText(getContext(), "Не удалось добавить пользователя в чат", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), R.string.erroe_adding_user, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -88,7 +88,7 @@ public class AddUsersToChatFragment extends Fragment {
 
             userViewHolderAdapter.notifyDataSetChanged();
         } else {
-            Toast.makeText(this.getContext(), "В системе нет пользователей", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), R.string.system_has_not_users, Toast.LENGTH_LONG).show();
         }
     }
 

@@ -64,7 +64,7 @@ public class SettingsFragment extends Fragment {
 
             void onSettingResponse(SettingResponse response) {
                 if (response.getStatus() == 0){
-                    Toast.makeText(getContext(), "Response: " + response.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), R.string.success_chage_user, Toast.LENGTH_LONG).show();
                     Intent intent = getActivity().getIntent();
                     intent.putExtra(EMAIL, response.getUser().getEmail());
                     intent.putExtra(FIRST_NAME, response.getUser().getFirstName());
@@ -72,7 +72,7 @@ public class SettingsFragment extends Fragment {
                     intent.putExtra(POST, response.getUser().getPost());
 
                 } else if (response.getStatus() == -1){
-                    Toast.makeText(getContext(), "Проверьте введенные данные", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), R.string.validate_data, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -93,7 +93,7 @@ public class SettingsFragment extends Fragment {
                     Intent newIntent = new Intent(getActivity(),LoginActivity.class);
                     startActivity(newIntent);
                 }else {
-                    Toast.makeText(getContext(),"Не удалось удалить пользователя", Toast.LENGTH_LONG);
+                    Toast.makeText(getContext(), R.string.users_not_delete, Toast.LENGTH_LONG);
                 }
             }
         });

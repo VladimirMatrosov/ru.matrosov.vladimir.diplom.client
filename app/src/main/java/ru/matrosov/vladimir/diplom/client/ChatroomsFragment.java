@@ -97,7 +97,7 @@ public class ChatroomsFragment extends Fragment {
             Toast.makeText(getContext(), R.string.no_user_with_email, Toast.LENGTH_LONG).show();
         } else if (response.getStatus() == -5) {
             TextView textView = getView().findViewById(R.id.textViewNull);
-            textView.setText("Вы не состоите ни в одном диалоге");
+            textView.setText(R.string.not_have_chats);
         }
     }
 

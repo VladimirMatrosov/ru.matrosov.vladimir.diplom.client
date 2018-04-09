@@ -53,15 +53,15 @@ public class ChangePasswordFragment extends Fragment {
 
     void onChangePassResponse(ChangePasswordResponse response) {
         if (response.getStatus() == 0) {
-            Toast.makeText(this.getContext(), "Ваш пароль успешно изменен", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), R.string.success_changing_pass, Toast.LENGTH_LONG).show();
             Intent intent = getActivity().getIntent();
             intent.putExtra(PASSWORD, response.getUser().getPassword());
         } else if(response.getStatus() == -1){
-            Toast.makeText(this.getContext(), "Введен неправильный текущий пароль", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), R.string.wrong_pass, Toast.LENGTH_LONG).show();
         } else if(response.getStatus() == -2){
-            Toast.makeText(this.getContext(), "Введенные пароль не совпадают", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), R.string.not_match_pass, Toast.LENGTH_LONG).show();
         } else if(response.getStatus() == -5){
-            Toast.makeText(this.getContext(), "Пароль не может быть пустым", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), R.string.pass_null, Toast.LENGTH_LONG).show();
         }
     }
 }

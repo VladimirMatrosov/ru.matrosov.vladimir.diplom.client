@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">diplom.client</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_registration">Зарегистрировать нового пользователя</string>
     <string name="action_sign_in_short">Вход в систему</string>
-
     <string name="label_set_email">Введите новый email</string>
     <string name="label_set_firstName">Введите новое имя</string>
     <string name="label_set_lastName">Введите новую фамилию</string>
@@ -19,7 +17,6 @@
     <string name="label_for_post">Введите вашу должность</string>
     <string name="label_for_password1">Введите пароль</string>
     <string name="label_for_password2">Повторите введенный пароль</string>
-
     <string name="input_name_chat">Введите название чата</string>
     <string name="create_chat">Создать чат</string>
     <string name="name_chat">Название чата</string>
@@ -45,6 +42,25 @@
     <string name="password_label">Пароль</string>
     <string name="no_user_with_email">Пользователя с таким email нет</string>
     <string name="wrong_pass">Набран неправильный пароль</string>
-
+    <string name="user_success_add">Пользователь добавлен в чат</string>
+    <string name="erroe_adding_user">Не удалось добавить пользователя в чат</string>
+    <string name="system_has_not_users">В системе нет пользователей</string>
+    <string name="success_changing_pass">Ваш пароль успешно изменен</string>
+    <string name="not_match_pass">Введенные пароли не совпадают</string>
+    <string name="pass_null">Пароль не может быть пустым</string>
+    <string name="not_have_chats">Вы не состоите ни в одном чате</string>
+    <string name="system_has_user_with_email">Пользователь с таким email уже существует</string>
+    <string name="null_error">Не все поля для ввода заполнены</string>
+    <string name="users_not_delete">Не удалось удалить пользователя</string>
+    <string name="validate_data">Проверьте введенные данные</string>
+    <string name="success_chage_user">Данные успешно изменены</string>
+    <string name="message_null">Сообщение не может быть пустым</string>
+    <string name="can_not_send_mess">Сообщение не удалось отправить</string>
+    <string name="can_not_open_chat">Не удалось открыть чат</string>
+    <string name="has_not_this_chat">Вы не состоите в данном чате</string>
+    <string name="chat_has_not_mess">В данном чате нет сообщений</string>
+    <string name="error_leave_chat">Не удалось покинуть чат</string>
+    <string name="error_show_users">Не удалось получить список пользователей</string>
+    <string name="error_add_chat">Нельзя создать чат с данным пользователем</string>
 
 </resources>

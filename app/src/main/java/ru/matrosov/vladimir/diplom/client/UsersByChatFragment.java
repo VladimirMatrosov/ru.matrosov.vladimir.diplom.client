@@ -80,7 +80,7 @@ public class UsersByChatFragment extends Fragment {
 
             usersByChatViewHolderAdapter.notifyDataSetChanged();
         }else {
-            Toast.makeText(getContext(), "Не удалось получить список пользователей", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.error_show_users, Toast.LENGTH_LONG).show();
         }
     }
 }

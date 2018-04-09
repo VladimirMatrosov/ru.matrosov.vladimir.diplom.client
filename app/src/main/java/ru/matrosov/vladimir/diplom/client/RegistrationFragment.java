@@ -67,15 +67,15 @@ public class RegistrationFragment extends Fragment {
 
             startActivity(intent);
         } else if (response.getStatus() == -2) {
-            Toast.makeText(this.getContext(), "Набранные пароли не совпадают",
+            Toast.makeText(this.getContext(), R.string.not_match_pass,
                     Toast.LENGTH_LONG).show();
             setEnabledRegButton(this.getView(),true);
         } else if (response.getStatus() == -1) {
-            Toast.makeText(this.getContext(), "Пользователь с таким email уже существует",
+            Toast.makeText(this.getContext(), R.string.system_has_user_with_email,
                     Toast.LENGTH_LONG).show();
             setEnabledRegButton(this.getView(),true);
         } else if (response.getStatus() == -5){
-            Toast.makeText(this.getContext(), "Не все поля для ввода заполнены",
+            Toast.makeText(this.getContext(), R.string.null_error,
                     Toast.LENGTH_LONG).show();
             setEnabledRegButton(this.getView(),true);
         }

@@ -79,10 +79,10 @@ public class UsersFragment extends Fragment {
                                 new FragmentSupports().replaceFragments(fragmentManager, "users_to_chat",
                                         R.id.frame_main, new ShowChatFragment());
                             } else if (openChatResponse.getStatus() == -3) {
-                                Toast.makeText(getContext(), "Нельзя создать чат с данным пользователем",
+                                Toast.makeText(getContext(), R.string.error_add_chat,
                                         Toast.LENGTH_LONG).show();
                             } else if (openChatResponse.getStatus() == -1) {
-                                Toast.makeText(getContext(), "Не удалось открыть чат с данным пользователем",
+                                Toast.makeText(getContext(), R.string.can_not_open_chat,
                                         Toast.LENGTH_LONG).show();
                             }
                         }
@@ -98,7 +98,7 @@ public class UsersFragment extends Fragment {
 
             userViewHolderAdapter.notifyDataSetChanged();
         } else {
-            Toast.makeText(this.getContext(), "В системе нет пользователей", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), R.string.system_has_not_users, Toast.LENGTH_LONG).show();
         }
     }
 }

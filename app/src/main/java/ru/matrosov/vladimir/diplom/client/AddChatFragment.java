@@ -53,10 +53,9 @@ public class AddChatFragment extends Fragment {
             intent.putExtra(ID_CHAT, idChat);
 
             FragmentManager fragmentManager = getFragmentManager();
-            new FragmentSupports().replaceFragments(fragmentManager, "addChat to ShowChat", R.id.frame_main,
-                    new ShowChatFragment());
+            new FragmentSupports().replaceFragments(fragmentManager, "addChat to ShowChat", R.id.frame_main, new ShowChatFragment());
         } else {
-            Toast.makeText(this.getContext(), "Введите имя чата", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), R.string.input_name_chat, Toast.LENGTH_LONG).show();
         }
     }
 }

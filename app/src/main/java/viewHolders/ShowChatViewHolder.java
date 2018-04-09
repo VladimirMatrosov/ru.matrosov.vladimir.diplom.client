@@ -19,7 +19,7 @@ public class ShowChatViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setData(String text) {
-        textViewData.setText(textViewData.getText() + text);
+        textViewData.setText("Дата отправки: " + text);
     }
 
     public void setTextEdit(String text) {
@@ -27,6 +27,6 @@ public class ShowChatViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setName(String text) {
-        textViewNameUser.setText(textViewNameUser.getText() + text);
+        textViewNameUser.setText("Пользователь: " + text);
     }
 }

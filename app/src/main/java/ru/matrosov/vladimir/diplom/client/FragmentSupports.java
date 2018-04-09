@@ -12,4 +12,10 @@ public class FragmentSupports {
         fragmentTransaction.addToBackStack(string);
         fragmentTransaction.commit();
     }
+
+    public void addFragments(FragmentManager fragmentManager, int view_id, Fragment fragment){
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(view_id, fragment);
+        fragmentTransaction.commit();
+    }
 }

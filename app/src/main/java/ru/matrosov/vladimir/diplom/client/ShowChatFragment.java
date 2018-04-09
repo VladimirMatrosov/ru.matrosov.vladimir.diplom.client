@@ -1,5 +1,6 @@
 package ru.matrosov.vladimir.diplom.client;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,11 +10,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -32,9 +41,11 @@ import static constants.IpAdress.IP_ADRESS;
 
 
 public class ShowChatFragment extends Fragment {
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_show_chat, container, false);
 
         Intent intent = getActivity().getIntent();
@@ -43,15 +54,17 @@ public class ShowChatFragment extends Fragment {
         ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
         serverConnection.showingChat(idChat, email, this::onResponseShowChat);
 
-        Button buttonAddUsersToChat = view.findViewById(R.id.addUserToChat);
-        buttonAddUsersToChat.setOnClickListener(this::addUserToChat);
+        EditText editTextText = view.findViewById(R.id.new_message);
 
-        Button buttonSendMessage = view.findViewById(R.id.send_new_message);
+        ImageButton buttonSendMessage = view.findViewById(R.id.send_new_message);
         buttonSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editTextText = view.findViewById(R.id.new_message);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                 String text = editTextText.getText().toString();
+                editTextText.setText("");
                 serverConnection.sendingMessage(email, text, idChat, this::onResponseSendMessage);
             }
 
@@ -67,21 +80,7 @@ public class ShowChatFragment extends Fragment {
             }
         });
 
-        Button buttonSowUsers = view.findViewById(R.id.showUsersInChat);
-        buttonSowUsers.setOnClickListener(this::showUsers);
-
-        Button buttonLeaveChat = view.findViewById(R.id.leaveChat);
-        buttonLeaveChat.setOnClickListener(this::leaveChat);
         return  view;
-    }
-
-    void leaveChat(View view) {
-        Intent intent = getActivity().getIntent();
-        Integer idChat = intent.getIntExtra(ID_CHAT, 0);
-        String email = intent.getStringExtra(EMAIL);
-
-        ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
-        serverConnection.leavingChat(idChat, email, this::onResponseLeaveChat);
     }
 
     void onResponseLeaveChat(LeaveChatResponse leaveChatResponse) {
@@ -94,18 +93,6 @@ public class ShowChatFragment extends Fragment {
         } else if (leaveChatResponse.getStatus() == -1) {
             Toast.makeText(getContext(), "Не удалось покинуть чат", Toast.LENGTH_LONG).show();
         }
-    }
-
-    void showUsers(View view) {
-        FragmentManager fragmentManager = getFragmentManager();
-        new FragmentSupports().replaceFragments(fragmentManager, "showChats_to_showUsers", R.id.frame_main,
-                new UsersByChatFragment());
-    }
-
-    void addUserToChat(View view) {
-        FragmentManager fragmentManager = getFragmentManager();
-        new FragmentSupports().replaceFragments(fragmentManager, "showChat_to_addUser", R.id.frame_main,
-                new AddUsersToChatFragment());
     }
 
     void onResponseShowChat(ShowChatResponse response) {
@@ -127,9 +114,10 @@ public class ShowChatFragment extends Fragment {
 
                 @Override
                 public void onBindViewHolder(@NonNull ShowChatViewHolder holder, int position) {
-                    holder.setData(messages.get(position).getDate().toString());
-                    holder.setTextEdit(messages.get(position).getText());
-                    holder.setName(users.get(position).getFirstName() + " " + users.get(position).getLastName());
+                    holder.setData(messages.get(messages.size() - 1 - position).getDate().toString());
+                    holder.setTextEdit(messages.get(messages.size() - 1 - position).getText());
+                    holder.setName(users.get(messages.size() - 1 - position).getFirstName()
+                            + " " + users.get(messages.size() - 1 - position).getLastName());
                 }
 
                 @Override
@@ -137,6 +125,7 @@ public class ShowChatFragment extends Fragment {
                     return messages.size();
                 }
             };
+
             recyclerView.setAdapter(showChatViewHolderAdapter);
             showChatViewHolderAdapter.notifyDataSetChanged();
         }else if (response.getStatus() == -1) {
@@ -147,4 +136,32 @@ public class ShowChatFragment extends Fragment {
             Toast.makeText(getContext(), "В данном чате нет сообщений", Toast.LENGTH_LONG).show();
         }
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        FragmentManager fragmentManager = getFragmentManager();
+        int id = item.getItemId();
+        if (id == R.id.action_showUsers) {
+            new FragmentSupports().replaceFragments(fragmentManager, "showChat_showUsers", R.id.frame_main,
+                    new UsersByChatFragment());
+        } else if (id == R.id.action_addUserToChat){
+            new FragmentSupports().replaceFragments(fragmentManager, "showChat_addUser", R.id.frame_main,
+                    new AddUsersToChatFragment());
+        } else if (id == R.id.action_leave_chat) {
+            Intent intent = getActivity().getIntent();
+            Integer idChat = intent.getIntExtra(ID_CHAT, 0);
+            String email = intent.getStringExtra(EMAIL);
+
+            ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
+            serverConnection.leavingChat(idChat, email, this::onResponseLeaveChat);
+        }
+
+        return true;
+    }
+
 }

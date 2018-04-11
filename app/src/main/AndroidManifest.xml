@@ -34,7 +34,11 @@
 
         <service
             android:name="services.MyIntentServiceShowChat"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_ASYNC" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

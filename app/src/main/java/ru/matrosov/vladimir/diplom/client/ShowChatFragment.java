@@ -138,7 +138,8 @@ public class ShowChatFragment extends Fragment {
 
             Intent intent = getActivity().getIntent();
             Log.w(TAG, "Intent: " + intent.getIntExtra(ID_CHAT, 0));
-            Intent intentService = new Intent(getContext(), MyIntentServiceShowChat.class);
+
+            Intent intentService = new Intent(Intent.ACTION_SYNC,null, getContext(), MyIntentServiceShowChat.class);
             intentService.putExtra(ID_CHAT, intent.getIntExtra(ID_CHAT, 0));
             Log.w(TAG, "IntentService: " + intentService.getIntExtra(ID_CHAT,0));
             intentService.putExtra(EMAIL, intent.getStringExtra(EMAIL));

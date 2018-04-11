@@ -28,9 +28,9 @@ public class MyIntentServiceShowChat extends IntentService {
     Integer idChat;
     String email;
     int messages_size;
-    boolean mBound;
     FragmentManager fragmentManager;
     Context context;
+    int listSize;
 
     private final IBinder mBind = new ShowChatBinder();
     private final String TAG = "IntentServiceLogs";
@@ -52,9 +52,6 @@ public class MyIntentServiceShowChat extends IntentService {
             context = context1;
         }
 
-        public void setBound(boolean b){
-            mBound = b;
-        }
     }
 
     @Nullable
@@ -74,15 +71,14 @@ public class MyIntentServiceShowChat extends IntentService {
             Log.w(TAG, "size: " + messages_size);
 
             int i = 0;
-
-            while (mBound == true) {
+            listSize = messages_size;
+            while (messages_size == listSize) {
                 synchronized (this) {
                     try {
                         wait(5000);
                         new ServerConnection(IP_ADRESS, context).showingChat(idChat, email, this::onResponse);
                         Log.w(TAG, "I = " + i);
                         i++;
-                        Log.w(TAG, "mBound = " + mBound);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -94,12 +90,12 @@ public class MyIntentServiceShowChat extends IntentService {
     private void onResponse(ShowChatResponse response) {
         if (response.getStatus() == 0) {
             ArrayList<Message> messages = (ArrayList<Message>) response.getMessages();
+            listSize = messages.size();
             if (messages.size() != messages_size) {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frame_main, new ShowChatFragment());
                 fragmentTransaction.commit();
-                mBound = false;
             }
-        } else mBound = false;
+        }
     }
 }

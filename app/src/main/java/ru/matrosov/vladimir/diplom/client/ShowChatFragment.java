@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +44,8 @@ import static constants.IpAdress.IP_ADRESS;
 
 public class ShowChatFragment extends Fragment {
 
-    Intent intent;
+    private static final String TAG = "ShowChatFragment";
+
     MyIntentServiceShowChat serviceShowChat;
     boolean mBound = false;
     public ServiceConnection mConnection = new ServiceConnection() {
@@ -54,7 +56,6 @@ public class ShowChatFragment extends Fragment {
             binder.setFragmentManager(getFragmentManager());
             binder.setContext(getContext());
             mBound = true;
-            binder.setBound(mBound);
         }
 
         @Override
@@ -68,8 +69,7 @@ public class ShowChatFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_show_chat, container, false);
-
-        intent = getActivity().getIntent();
+        Intent intent = getActivity().getIntent();
         Integer idChat = intent.getIntExtra(ID_CHAT, 0);
         String email = intent.getStringExtra(EMAIL);
         ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
@@ -123,7 +123,8 @@ public class ShowChatFragment extends Fragment {
                 public void onBindViewHolder(@NonNull ShowChatViewHolder holder, int position) {
                     holder.setData(messages.get(messages.size() - 1 - position).getDate().toString());
                     holder.setTextEdit(messages.get(messages.size() - 1 - position).getText());
-                    holder.setName(users.get(messages.size() - 1 - position).getFirstName() + " " + users.get(messages.size() - 1 - position).getLastName());
+                    holder.setName(users.get(messages.size() - 1 - position).getFirstName() + " "
+                            + users.get(messages.size() - 1 - position).getLastName());
                 }
 
                 @Override
@@ -135,8 +136,11 @@ public class ShowChatFragment extends Fragment {
             recyclerView.setAdapter(showChatViewHolderAdapter);
             showChatViewHolderAdapter.notifyDataSetChanged();
 
+            Intent intent = getActivity().getIntent();
+            Log.w(TAG, "Intent: " + intent.getIntExtra(ID_CHAT, 0));
             Intent intentService = new Intent(getContext(), MyIntentServiceShowChat.class);
             intentService.putExtra(ID_CHAT, intent.getIntExtra(ID_CHAT, 0));
+            Log.w(TAG, "IntentService: " + intentService.getIntExtra(ID_CHAT,0));
             intentService.putExtra(EMAIL, intent.getStringExtra(EMAIL));
             intentService.putExtra(MESSAGES_SIZE, users.size());
 
@@ -162,15 +166,12 @@ public class ShowChatFragment extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         int id = item.getItemId();
         if (id == R.id.action_showUsers) {
-            getContext().stopService(new Intent(getContext(), MyIntentServiceShowChat.class));
             new FragmentSupports().replaceFragments(fragmentManager, "showChat_showUsers",
                     R.id.frame_main, new UsersByChatFragment());
         } else if (id == R.id.action_addUserToChat) {
-            getContext().stopService(new Intent(getContext(), MyIntentServiceShowChat.class));
             new FragmentSupports().replaceFragments(fragmentManager, "showChat_addUser",
                     R.id.frame_main, new AddUsersToChatFragment());
         } else if (id == R.id.action_leave_chat) {
-            getContext().stopService(new Intent(getContext(), MyIntentServiceShowChat.class));
             Intent intent = getActivity().getIntent();
             Integer idChat = intent.getIntExtra(ID_CHAT, 0);
             String email = intent.getStringExtra(EMAIL);

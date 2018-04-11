@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_users) {
+
            new FragmentSupports().replaceFragments(fragmentManager,"main to users", R.id.frame_main,
                    new UsersFragment());
         } else if (id == R.id.nav_chatrooms) {

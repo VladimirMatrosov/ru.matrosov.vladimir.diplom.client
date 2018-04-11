@@ -21,11 +21,7 @@ public class ChatroomViewHolder extends RecyclerView.ViewHolder {
         textViewName.setText(text);
     }
 
-    public ImageButton getButton() {
-        return button;
-    }
-
-    public TextView getTextViewName() {
-        return textViewName;
+    public void setClick(View.OnClickListener onClickListener){
+        button.setOnClickListener(onClickListener);
     }
 }

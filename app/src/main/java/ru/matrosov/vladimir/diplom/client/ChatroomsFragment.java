@@ -72,8 +72,8 @@ public class ChatroomsFragment extends Fragment {
 
                         @Override
                         public void onBindViewHolder(@NonNull ChatroomViewHolder holder, int position) {
-                            holder.getTextViewName().setText(chatrooms.get(position).getName());
-                            holder.getButton().setOnClickListener(new View.OnClickListener() {
+                            holder.setName(chatrooms.get(position).getName());
+                            holder.setClick(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = getActivity().getIntent();

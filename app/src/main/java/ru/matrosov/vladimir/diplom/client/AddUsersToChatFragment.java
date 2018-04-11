@@ -57,14 +57,14 @@ public class AddUsersToChatFragment extends Fragment {
                     holder.setEmail(users.get(position).getEmail());
                     holder.setName(users.get(position).getFirstName() + " " + users.get(position).getLastName());
                     holder.setPost(users.get(position).getPost());
-                    holder.getButton().setImageResource(R.drawable.ic_person_add_black);
-                    holder.getButton().setOnClickListener(new View.OnClickListener() {
+                    holder.setImage(R.drawable.ic_person_add_black);
+                    holder.setClick(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = getActivity().getIntent();
                             Integer idChat = intent.getIntExtra(ID_CHAT, 0);
                             ServerConnection serverConnection = new ServerConnection(IP_ADRESS, getContext());
-                            serverConnection.addingUserToChat(idChat, holder.getEmailTextView().getText().toString(),
+                            serverConnection.addingUserToChat(idChat, holder.getEmailText(),
                                     this::onResponseAddUserToChat);
                         }
 

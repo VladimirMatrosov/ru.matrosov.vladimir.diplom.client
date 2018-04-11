@@ -8,4 +8,6 @@ public class IntentParameters {
     public static final String POST = "post";
     public static final String USER_ID = "userID";
     public static final String ID_CHAT = "idChat";
+    public static final String MESSAGES_SIZE = "messagesSize";
+    public static final String M_BOUND = "mBound";
 }

@@ -36,11 +36,14 @@ public class UsersViewHolder extends RecyclerView.ViewHolder {
         postTextView.setText(postTextView.getText() + text);
     }
 
-    public ImageButton getButton() {
-        return button;
+    public void setImage(int image_id){
+        button.setImageResource(image_id);
     }
 
-    public TextView getEmailTextView() {
-        return emailTextView;
+    public void setClick(View.OnClickListener onClickListener){
+        button.setOnClickListener(onClickListener);
     }
+     public String getEmailText(){
+        return emailTextView.getText().toString();
+     }
 }

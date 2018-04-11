@@ -59,8 +59,8 @@ public class UsersFragment extends Fragment {
                     holder.setEmail(users.get(position).getEmail());
                     holder.setName(users.get(position).getFirstName() + " " + users.get(position).getLastName());
                     holder.setPost(users.get(position).getPost());
-                    holder.getButton().setImageResource(R.drawable.ic_email_black);
-                    holder.getButton().setOnClickListener(new View.OnClickListener() {
+                    holder.setImage(R.drawable.ic_email_black);
+                    holder.setClick(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = getActivity().getIntent();

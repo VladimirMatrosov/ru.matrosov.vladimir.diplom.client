@@ -36,7 +36,8 @@
             android:name="services.MyIntentServiceShowChat"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_ASYNC" />
+                <action android:name="ru.matrosov.vladimir.diplom.client.service" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
     </application>

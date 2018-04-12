@@ -1,7 +1,11 @@
 package ru.matrosov.vladimir.diplom.client;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +25,9 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import services.IntentService;
+import services.MyIntentServiceShowChat;
+
 import static constants.IntentParameters.EMAIL;
 import static constants.IntentParameters.FIRST_NAME;
 import static constants.IntentParameters.LAST_NAME;
@@ -29,10 +36,19 @@ import static constants.IntentParameters.LAST_NAME;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    IntentService intentService = new IntentService();
+
+    MyIntentServiceShowChat serviceShowChat;
+    boolean mBound = false;
+    ServiceConnection mConnection;
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,6 +86,21 @@ public class MainActivity extends AppCompatActivity
 
         TextView textViewNameUser = headerLayout.findViewById(R.id.textViewNameUser);
         textViewNameUser.setText(firstNameOutput + " " + lastNameOutput);
+
+        mConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                MyIntentServiceShowChat.ShowChatBinder binder = (MyIntentServiceShowChat.ShowChatBinder) service;
+                serviceShowChat = binder.getService();
+                binder.setFragmentManager(getSupportFragmentManager());
+                binder.setContext(context);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mBound = false;
+            }
+        };
     }
 
     @Override
@@ -107,6 +138,7 @@ public class MainActivity extends AppCompatActivity
          drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     public void mainHome(FragmentManager fragmentManager, String string){
         new FragmentSupports().replaceFragments(fragmentManager, string, R.id.frame_main, new HomeFragment());

@@ -98,4 +98,14 @@ public class MyIntentServiceShowChat extends IntentService {
             }
         }
     }
+
+    @Override
+    public void onDestroy() {
+        listSize = -1;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return false;
+    }
 }

@@ -121,9 +121,9 @@ public class ShowChatFragment extends Fragment {
                 getContext().unbindService(mainActivity.mConnection);
                 getContext().stopService(mainActivity.intentShowChat.getIntent());
             }
-            mainActivity.intentShowChat.setInt(ID_CHAT, intent.getIntExtra(ID_CHAT, 0));
-            mainActivity.intentShowChat.setStr(EMAIL, intent.getStringExtra(EMAIL));
-            mainActivity.intentShowChat.setInt(MESSAGES_SIZE, messages.size());
+
+            mainActivity.intentShowChat.setData(intent.getIntExtra(ID_CHAT, 0),
+                    intent.getStringExtra(EMAIL), messages.size());
 
             getContext().startService(mainActivity.intentShowChat.getIntent());
             mainActivity.mBound = true;
@@ -137,6 +137,7 @@ public class ShowChatFragment extends Fragment {
             Toast.makeText(getContext(), R.string.has_not_this_chat, Toast.LENGTH_LONG).show();
         } else if (response.getStatus() == -5) {
             Toast.makeText(getContext(), R.string.chat_has_not_mess, Toast.LENGTH_LONG).show();
+
             Intent intent = getActivity().getIntent();
 
             MainActivity mainActivity = (MainActivity) getActivity();
@@ -146,9 +147,9 @@ public class ShowChatFragment extends Fragment {
                 getContext().unbindService(mainActivity.mConnection);
                 getContext().stopService(mainActivity.intentShowChat.getIntent());
             }
-            mainActivity.intentShowChat.setInt(ID_CHAT, intent.getIntExtra(ID_CHAT, 0));
-            mainActivity.intentShowChat.setStr(EMAIL, intent.getStringExtra(EMAIL));
-            mainActivity.intentShowChat.setInt(MESSAGES_SIZE, 0);
+
+            mainActivity.intentShowChat.setData(intent.getIntExtra(ID_CHAT, 0),
+                    intent.getStringExtra(EMAIL), 0);
 
             getContext().startService(mainActivity.intentShowChat.getIntent());
             mainActivity.mBound = true;

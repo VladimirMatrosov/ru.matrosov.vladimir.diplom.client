@@ -3,7 +3,7 @@ package services;
 import android.content.Context;
 import android.content.Intent;
 
-public class IntentService {
+public class IntentShowChat {
    Intent intent = new Intent("ru.matrosov.vladimir.diplom.client.service");
 
    public void setPackage(Context context){

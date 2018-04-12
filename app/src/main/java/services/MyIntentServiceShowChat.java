@@ -64,12 +64,9 @@ public class MyIntentServiceShowChat extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             this.idChat = intent.getIntExtra(ID_CHAT, 0);
-            Log.w(TAG, "idChat: " + idChat);
             this.email = intent.getStringExtra(EMAIL);
-            Log.w(TAG, "email: " + email);
             this.messages_size = intent.getIntExtra(MESSAGES_SIZE, 0);
-            Log.w(TAG, "size: " + messages_size);
-
+            Log.w(TAG,"email: "+ email);
             int i = 0;
             listSize = messages_size;
             while (messages_size == listSize) {

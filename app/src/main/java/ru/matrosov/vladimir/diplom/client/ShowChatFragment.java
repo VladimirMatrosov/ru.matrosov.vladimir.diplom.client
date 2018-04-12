@@ -1,18 +1,14 @@
 package ru.matrosov.vladimir.diplom.client;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,14 +28,11 @@ import ru.matrosov.vladimir.diplom.client.retrofit.LeaveChatResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.SendMessageResponse;
 import ru.matrosov.vladimir.diplom.client.retrofit.ServerConnection;
 import ru.matrosov.vladimir.diplom.client.retrofit.ShowChatResponse;
-import services.IntentService;
-import services.MyIntentServiceShowChat;
 import viewHolders.ShowChatViewHolder;
 
 import static constants.IntentParameters.EMAIL;
 import static constants.IntentParameters.ID_CHAT;
 import static constants.IntentParameters.MESSAGES_SIZE;
-import static constants.IntentParameters.M_BOUND;
 import static constants.IpAdress.IP_ADRESS;
 
 public class ShowChatFragment extends Fragment {
@@ -98,7 +91,8 @@ public class ShowChatFragment extends Fragment {
                 @NonNull
                 @Override
                 public ShowChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                    View view = LayoutInflater.from(getContext()).inflate(R.layout.show_chat_cell_layout, parent, false);
+                    View view = LayoutInflater.from(getContext()).inflate(R.layout.show_chat_cell_layout, parent,
+                            false);
                     return new ShowChatViewHolder(view);
                 }
 
@@ -121,19 +115,19 @@ public class ShowChatFragment extends Fragment {
             Intent intent = getActivity().getIntent();
 
             MainActivity mainActivity = (MainActivity) getActivity();
-            mainActivity.intentService.setPackage(getContext());
+            mainActivity.intentShowChat.setPackage(getContext());
 
-            if (intent.getBooleanExtra(M_BOUND, false) == true) {
+            if (mainActivity.mBound == true) {
                 getContext().unbindService(mainActivity.mConnection);
-                getContext().stopService(mainActivity.intentService.getIntent());
+                getContext().stopService(mainActivity.intentShowChat.getIntent());
             }
-            mainActivity.intentService.setInt(ID_CHAT, intent.getIntExtra(ID_CHAT, 0));
-            mainActivity.intentService.setStr(EMAIL, intent.getStringExtra(EMAIL));
-            mainActivity.intentService.setInt(MESSAGES_SIZE, messages.size());
+            mainActivity.intentShowChat.setInt(ID_CHAT, intent.getIntExtra(ID_CHAT, 0));
+            mainActivity.intentShowChat.setStr(EMAIL, intent.getStringExtra(EMAIL));
+            mainActivity.intentShowChat.setInt(MESSAGES_SIZE, messages.size());
 
-            getContext().startService(mainActivity.intentService.getIntent());
-            intent.putExtra(M_BOUND, true);
-            getContext().bindService(mainActivity.intentService.getIntent(), mainActivity.mConnection,
+            getContext().startService(mainActivity.intentShowChat.getIntent());
+            mainActivity.mBound = true;
+            getContext().bindService(mainActivity.intentShowChat.getIntent(), mainActivity.mConnection,
                     Context.BIND_AUTO_CREATE);
 
 
@@ -143,6 +137,23 @@ public class ShowChatFragment extends Fragment {
             Toast.makeText(getContext(), R.string.has_not_this_chat, Toast.LENGTH_LONG).show();
         } else if (response.getStatus() == -5) {
             Toast.makeText(getContext(), R.string.chat_has_not_mess, Toast.LENGTH_LONG).show();
+            Intent intent = getActivity().getIntent();
+
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.intentShowChat.setPackage(getContext());
+
+            if (mainActivity.mBound == true) {
+                getContext().unbindService(mainActivity.mConnection);
+                getContext().stopService(mainActivity.intentShowChat.getIntent());
+            }
+            mainActivity.intentShowChat.setInt(ID_CHAT, intent.getIntExtra(ID_CHAT, 0));
+            mainActivity.intentShowChat.setStr(EMAIL, intent.getStringExtra(EMAIL));
+            mainActivity.intentShowChat.setInt(MESSAGES_SIZE, 0);
+
+            getContext().startService(mainActivity.intentShowChat.getIntent());
+            mainActivity.mBound = true;
+            getContext().bindService(mainActivity.intentShowChat.getIntent(), mainActivity.mConnection,
+                    Context.BIND_AUTO_CREATE);
         }
     }
 

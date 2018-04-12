@@ -112,35 +112,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_users) {
-            if (mBound == true) {
-                unbindService(mConnection);
-                stopService(intentShowChat.getIntent());
-                mBound = false;
-            }
+            serviceStoping();
             new FragmentSupports().replaceFragments(fragmentManager, "main to users",
                     R.id.frame_main, new UsersFragment());
         } else if (id == R.id.nav_chatrooms) {
-            if (mBound == true) {
-                unbindService(mConnection);
-                stopService(intentShowChat.getIntent());
-                mBound = false;
-            }
+            serviceStoping();
             new FragmentSupports().replaceFragments(fragmentManager, "main to chatrooms",
                     R.id.frame_main, new ChatroomsFragment());
         } else if (id == R.id.nav_settings) {
-            if (mBound == true) {
-                unbindService(mConnection);
-                stopService(intentShowChat.getIntent());
-                mBound = false;
-            }
+            serviceStoping();
             new FragmentSupports().replaceFragments(fragmentManager, "main to settings",
                     R.id.frame_main, new SettingsFragment());
         } else if (id == R.id.nav_exit) {
-            if (mBound == true) {
-                unbindService(mConnection);
-                stopService(intentShowChat.getIntent());
-                mBound = false;
-            }
+            serviceStoping();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
@@ -153,6 +137,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void mainHome(FragmentManager fragmentManager, String string) {
         new FragmentSupports().replaceFragments(fragmentManager, string, R.id.frame_main, new HomeFragment());
+    }
+
+    public void serviceStoping(){
+        if (mBound == true) {
+            unbindService(mConnection);
+            stopService(intentShowChat.getIntent());
+            mBound = false;
+        }
     }
 
 }

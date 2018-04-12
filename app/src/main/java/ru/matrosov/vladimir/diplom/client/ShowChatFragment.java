@@ -116,12 +116,7 @@ public class ShowChatFragment extends Fragment {
 
             MainActivity mainActivity = (MainActivity) getActivity();
             mainActivity.intentShowChat.setPackage(getContext());
-
-            if (mainActivity.mBound == true) {
-                getContext().unbindService(mainActivity.mConnection);
-                getContext().stopService(mainActivity.intentShowChat.getIntent());
-            }
-
+            serviceStoping(mainActivity);
             mainActivity.intentShowChat.setData(intent.getIntExtra(ID_CHAT, 0),
                     intent.getStringExtra(EMAIL), messages.size());
 
@@ -142,12 +137,7 @@ public class ShowChatFragment extends Fragment {
 
             MainActivity mainActivity = (MainActivity) getActivity();
             mainActivity.intentShowChat.setPackage(getContext());
-
-            if (mainActivity.mBound == true) {
-                getContext().unbindService(mainActivity.mConnection);
-                getContext().stopService(mainActivity.intentShowChat.getIntent());
-            }
-
+            serviceStoping(mainActivity);
             mainActivity.intentShowChat.setData(intent.getIntExtra(ID_CHAT, 0),
                     intent.getStringExtra(EMAIL), 0);
 
@@ -194,6 +184,14 @@ public class ShowChatFragment extends Fragment {
             Toast.makeText(getContext(), R.string.not_have_chats, Toast.LENGTH_LONG).show();
         } else if (leaveChatResponse.getStatus() == -1) {
             Toast.makeText(getContext(), R.string.error_leave_chat, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void serviceStoping(MainActivity mainActivity){
+        if (mainActivity.mBound == true) {
+            getContext().unbindService(mainActivity.mConnection);
+            getContext().stopService(mainActivity.intentShowChat.getIntent());
+            mainActivity.mBound = false;
         }
     }
 

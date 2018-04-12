@@ -20,18 +20,6 @@ public class IntentShowChat {
         this.intent.putExtra(MESSAGES_SIZE, messages_size);
     }
 
-    public int getInt(String name){
-        return intent.getIntExtra(name, -1);
-    }
-
-    public String getStr(String name){
-        return intent.getStringExtra(name);
-    }
-
-    public boolean getBool(String name){
-        return intent.getBooleanExtra(name, false);
-    }
-
     public Intent getIntent() {
         return intent;
     }

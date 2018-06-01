@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,6 +45,9 @@ public class ShowChatFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_show_chat, container, false);
+
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+        appCompatActivity.getSupportActionBar().setTitle("Сообщения");
 
         Intent intent = getActivity().getIntent();
         Integer idChat = intent.getIntExtra(ID_CHAT, 0);
@@ -100,7 +104,8 @@ public class ShowChatFragment extends Fragment {
                 public void onBindViewHolder(@NonNull ShowChatViewHolder holder, int position) {
                     holder.setData(messages.get(messages.size() - 1 - position).getDate().toString());
                     holder.setTextEdit(messages.get(messages.size() - 1 - position).getText());
-                    holder.setName(users.get(messages.size() - 1 - position).getFirstName() + " " + users.get(messages.size() - 1 - position).getLastName());
+                    holder.setName(users.get(messages.size() - 1 - position).getFirstName() + " " +
+                            users.get(messages.size() - 1 - position).getLastName());
                 }
 
                 @Override

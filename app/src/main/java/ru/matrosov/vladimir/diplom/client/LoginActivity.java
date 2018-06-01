@@ -5,16 +5,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 
-/**
- * A login screen that offers login via email/password.
- */
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Fresco.initialize(this);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

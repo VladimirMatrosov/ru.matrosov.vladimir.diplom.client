@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStack();
+            serviceStoping();
         } else {
             super.onBackPressed();
         }

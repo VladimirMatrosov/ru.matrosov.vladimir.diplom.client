@@ -71,21 +71,29 @@
                 android:layout_marginTop="15dp"
                 android:text="@string/save_changes"
                 tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="447dp" />
+                tools:layout_editor_absoluteY="447dp"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"/>
 
             <Button
                 android:id="@+id/change_password_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/save_settings_button"
-                android:text="@string/change_password" />
+                android:text="@string/change_password"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:layout_marginTop="15dp"/>
 
             <Button
                 android:id="@+id/deleteUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/change_password_button"
-                android:text="@string/delete_user" />
+                android:text="@string/delete_user"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:layout_marginTop="15dp"/>
 
             <TextView
                 android:id="@+id/textViewEmail"

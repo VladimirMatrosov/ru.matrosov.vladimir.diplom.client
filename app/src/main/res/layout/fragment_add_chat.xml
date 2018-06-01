@@ -34,7 +34,9 @@
                 android:id="@+id/add_chat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/create_chat" />
+                android:text="@string/create_chat"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"/>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

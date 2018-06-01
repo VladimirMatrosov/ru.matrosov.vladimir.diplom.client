@@ -54,14 +54,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in_short" />
+                android:text="@string/action_sign_in_short"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"/>
 
             <Button
                 android:id="@+id/email_registration_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_registration" />
+                android:text="@string/action_registration"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"/>
 
         </LinearLayout>
     </ScrollView>

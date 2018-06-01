@@ -95,7 +95,9 @@
                 android:layout_marginTop="25dp"
                 android:text="@string/action_registration"
                 tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="447dp" />
+                tools:layout_editor_absoluteY="447dp"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/textViewEmail"
